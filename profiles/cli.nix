@@ -13,6 +13,30 @@ let
     };
     vimrcConfig.customRC = ''
       set nocompatible
+
+      " enable secure project specific .vimrc
+      set exrc
+      set secure
+
+      " indentation
+      set smartindent
+      set tabstop=4
+      set shiftwidth=4
+      set expandtab
+      set smarttab
+      filetype indent on
+      filetype on
+
+      " syntax highlighting
+      syntax on
+      syntax enable
+
+      " rendering
+      set number
+      set lazyredraw
+      set showmatch
+
+      " editing
       set backspace=indent,eol,start
     '';
   });
