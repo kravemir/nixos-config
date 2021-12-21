@@ -7,6 +7,8 @@
     ../../profiles/cli.nix
     ../../profiles/gui.nix
 
+    # ../../profiles/hardware.nix
+
     ./services.nix
   ];
 
@@ -52,6 +54,7 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
+  services.tailscale.enable = true;
 
   networking.firewall = {
     enable = true;

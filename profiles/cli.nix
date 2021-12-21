@@ -8,6 +8,8 @@ let
         vim-airline
         vim-nix
         vim-lastplace
+
+        editorconfig-vim
       ];
       opt = [];
     };
