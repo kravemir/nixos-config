@@ -27,9 +27,9 @@
       node = {
         enable = true;
         enabledCollectors = [
-	  "logind"
-	  "systemd"
-	];
+          "logind"
+          "systemd"
+        ];
         port = 9007;
       };
     };

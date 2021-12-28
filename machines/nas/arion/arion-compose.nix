@@ -1,7 +1,8 @@
 {
   services.gitea = {
+    service.restart = "always";
+
     service.image = "gitea/gitea:1.15.7";
-    service.restart = "unless-stopped";
     service.volumes = [ 
       "/storage/data/gitea:/data"
       "/etc/timezone:/etc/timezone:ro"
@@ -18,6 +19,8 @@
   };
 
   services.minidlna = { config, pkgs, ... }: {
+    service.restart = "always";
+
     nixos = {
       useSystemd = true;
     
@@ -26,7 +29,7 @@
       configuration.systemd.services.nscd.enable = false;
 
       configuration.services.minidlna.enable = true;
-      configuration.services.minidlna.announceInterval = 1;
+      configuration.services.minidlna.announceInterval = 120;
       configuration.services.minidlna.friendlyName = "NAS";
       configuration.services.minidlna.mediaDirs = [
         "A,/storage/data/public/Audio/"

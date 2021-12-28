@@ -60,9 +60,11 @@
     enable = true;
 
     allowedTCPPorts = [
+      # minidlna
       8200
 
-      5022
+      # gitea
+      5022 5080
     ];
     allowedUDPPorts = [ 1900 ];
   };
