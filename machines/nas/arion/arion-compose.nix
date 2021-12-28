@@ -17,37 +17,4 @@
       "5022:22"
     ];
   };
-
-  services.minidlna = { config, pkgs, ... }: {
-    service.restart = "always";
-
-    nixos = {
-      useSystemd = true;
-    
-      configuration.boot.tmpOnTmpfs = true;
-
-      configuration.systemd.services.nscd.enable = false;
-
-      configuration.services.minidlna.enable = true;
-      configuration.services.minidlna.announceInterval = 120;
-      configuration.services.minidlna.friendlyName = "NAS";
-      configuration.services.minidlna.mediaDirs = [
-        "A,/storage/data/public/Audio/"
-        "V,/storage/data/public/Videos/"
-      ];
-    };
-
-    service.volumes = [ 
-      "/storage/data/public:/storage/data/public:ro"
-    ];
-
-    # TODO: do not use lesser secure host network mode
-    service.network_mode = "host";
-
-    # TODO: solve multicast forwarding issue
-    # service.ports = [
-    #   "8200:8200/tcp"
-    #   "1900:1900/udp"
-    # ];
-  };
 }

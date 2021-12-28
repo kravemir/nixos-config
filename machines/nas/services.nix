@@ -43,5 +43,28 @@
       }
     ];
   };
+
+  containers.minidlna = {
+    config = { config, pkgs, ... }: {
+      systemd.services.nscd.enable = false;
+
+      services.minidlna.enable = true;
+      services.minidlna.announceInterval = 120;
+      services.minidlna.friendlyName = "NAS";
+      services.minidlna.mediaDirs = [
+        "A,/storage/data/public/Audio/"
+        "V,/storage/data/public/Videos/"
+      ];
+    };
+
+    bindMounts = {
+      "/storage/data/public" = {
+        hostPath = "/storage/data/public";
+        isReadOnly = false;
+      };
+    };
+
+    # TODO - define container's network and forward ports
+  };
 }
 
