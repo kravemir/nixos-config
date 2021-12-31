@@ -44,12 +44,69 @@
     ];
   };
 
+  containers.gitea = {
+    config = { lib, config, pkgs, ... }: {
+      services.sshd.enable = true;
+      services.openssh.ports = [5022];
+
+      services.gitea = {
+        enable = true;
+        user = "git";
+
+        # TODO: define root URL
+        # rootUrl = "http://root-domain:5080/"
+
+        httpPort = 5080;
+        ssh.clonePort = 5022;
+
+        database.user = "git";
+      };
+
+      users.users.git = {
+        uid = 2001;
+        group = "gitea";
+        description = "Gitea Service";
+        isSystemUser = true;
+        home = config.services.gitea.stateDir;
+        useDefaultShell = true;
+      };
+
+      users.groups.gitea = lib.mkForce {
+        gid = 2001;
+      };
+    };
+
+    bindMounts = {
+      "/var/lib/gitea" = {
+        hostPath = "/storage/data/gitea";
+        isReadOnly = false;
+      };
+      # TODO: resolve localtime and timezone bind mounts
+      # "/etc/timezone".hostPath = "/etc/timezone";
+      # "/etc/localtime".hostPath = ":/etc/localtime";
+    };
+
+    # TODO: seems container binds ports directly to host
+    forwardPorts = [
+      {
+        containerPort = 3000;
+        hostPort = 5080;
+        protocol = "tcp";
+      }
+      {
+        containerPort = 22;
+        hostPort = 5022;
+        protocol = "tcp";
+      }
+    ];
+  };
+
   containers.minidlna = {
     config = { config, pkgs, ... }: {
       systemd.services.nscd.enable = false;
 
       services.minidlna.enable = true;
-      services.minidlna.announceInterval = 120;
+      services.minidlna.announceInterval = 1;
       services.minidlna.friendlyName = "NAS";
       services.minidlna.mediaDirs = [
         "A,/storage/data/public/Audio/"
