@@ -45,16 +45,16 @@
   };
 
   containers.gitea = {
+    autoStart = true;
+
     config = { lib, config, pkgs, ... }: {
       services.sshd.enable = true;
-      services.openssh.ports = [5022];
 
       services.gitea = {
         enable = true;
         user = "git";
 
-        # TODO: define root URL
-        # rootUrl = "http://root-domain:5080/"
+        rootUrl = "http://gitea:5080/";
 
         httpPort = 5080;
         ssh.clonePort = 5022;
@@ -74,6 +74,11 @@
       users.groups.gitea = lib.mkForce {
         gid = 2001;
       };
+
+      networking.firewall.allowedTCPPorts = [
+        22
+        5080
+      ];
     };
 
     bindMounts = {
@@ -86,10 +91,13 @@
       # "/etc/localtime".hostPath = ":/etc/localtime";
     };
 
-    # TODO: seems container binds ports directly to host
+    privateNetwork = true;
+    hostAddress = "192.168.140.2";
+    localAddress = "192.168.140.61";
+
     forwardPorts = [
       {
-        containerPort = 3000;
+        containerPort = 5080;
         hostPort = 5080;
         protocol = "tcp";
       }
@@ -102,6 +110,8 @@
   };
 
   containers.minidlna = {
+    autoStart = true;
+
     config = { config, pkgs, ... }: {
       systemd.services.nscd.enable = false;
 
@@ -121,7 +131,23 @@
       };
     };
 
-    # TODO - define container's network and forward ports
+    # TODO - use privateNetwork instead of host's interfaces
+    # privateNetwork = true;
+    # hostAddress = "192.168.140.2";
+    # localAddress = "192.168.140.62";
+
+    forwardPorts = [
+      {
+        containerPort = 8200;
+        hostPort = 8200;
+        protocol = "tcp";
+      }
+      {
+        containerPort = 1900;
+        hostPort = 1900;
+        protocol = "udp";
+      }
+    ];
   };
 }
 
