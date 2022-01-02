@@ -420,7 +420,7 @@
             "uid": "${prometheus_data_source}"
           },
           "exemplar": false,
-          "expr": "node_filesystem_free_bytes",
+          "expr": "node_filesystem_size_bytes - node_filesystem_free_bytes",
           "format": "time_series",
           "hide": false,
           "instant": true,
@@ -574,6 +574,6 @@
   "timezone": "",
   "title": "Machine Resources",
   "uid": "12DLrTAnk",
-  "version": 19,
+  "version": 20,
   "weekStart": ""
 }

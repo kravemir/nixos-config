@@ -53,9 +53,21 @@
 
   containers.gitea = {
     autoStart = true;
+    ephemeral = true;
 
     config = { lib, config, pkgs, ... }: {
       services.sshd.enable = true;
+      services.openssh.hostKeys = [
+        {
+          bits = 4096;
+          path = "/var/lib/gitea/sshd/ssh_host_rsa_key";
+          type = "rsa";
+        }
+        {
+          path = "/var/lib/gitea/sshd/ssh_host_ed25519_key";
+          type = "ed25519";
+        }
+      ];
 
       services.gitea = {
         enable = true;
@@ -118,6 +130,7 @@
 
   containers.minidlna = {
     autoStart = true;
+    ephemeral = true;
 
     config = { config, pkgs, ... }: {
       systemd.services.nscd.enable = false;
