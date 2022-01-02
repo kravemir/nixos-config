@@ -24,6 +24,10 @@
         }
       ];
     };
+
+    extraOptions = {
+      USERS_DEFAULT_THEME = "light";
+    };
   };
 
   services.prometheus = {
