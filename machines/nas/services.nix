@@ -4,7 +4,26 @@
   services.grafana = {
     enable = true;
     port = 5049;
-    addr = "127.0.0.1";
+    addr = "";
+
+    provision = {
+      enable = true;
+      datasources = [
+        {
+          name = "Prometheus";
+
+          isDefault = true;
+
+          type = "prometheus";
+          url = "http://localhost:5043";
+        }
+      ];
+      dashboards = [
+        {
+          options.path = "/etc/nixos/grafana/dashboards";
+        }
+      ];
+    };
   };
 
   services.prometheus = {

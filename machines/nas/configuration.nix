@@ -66,6 +66,9 @@
     enable = true;
 
     allowedTCPPorts = [
+      # grafana
+      5049
+
       # minidlna
       8200
 
