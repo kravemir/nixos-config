@@ -261,7 +261,6 @@
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 4,
           "displayName": "Including caches",
           "mappings": [],
           "min": 0,
@@ -447,7 +446,7 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi"
         }
       },
       "pluginVersion": "8.3.2",
@@ -458,7 +457,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "(1- rate(node_cpu_seconds_total{mode=\"idle\"}[2m])) * 100",
+          "expr": "((1- rate(node_cpu_seconds_total{mode=\"idle\"}[2m])) * 100 > 0) or on() vector(0)",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
@@ -467,7 +466,12 @@
         }
       ],
       "title": "CPU utilization",
-      "transformations": [],
+      "transformations": [
+        {
+          "id": "seriesToRows",
+          "options": {}
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -568,7 +572,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "node_memory_MemTotal_bytes-node_memory_MemAvailable_bytes",
+          "expr": "(node_memory_MemTotal_bytes-node_memory_MemAvailable_bytes) or on() vector(0)",
           "interval": "",
           "legendFormat": "Used",
           "refId": "Used"
@@ -592,6 +596,10 @@
               }
             ]
           }
+        },
+        {
+          "id": "seriesToRows",
+          "options": {}
         }
       ],
       "type": "timeseries"
@@ -1015,13 +1023,13 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Machine Resources",
   "uid": "12DLrTAnk",
-  "version": 21,
+  "version": 22,
   "weekStart": ""
 }
