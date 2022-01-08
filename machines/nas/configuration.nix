@@ -9,6 +9,7 @@
     ../../profiles/gui-minimize.nix
 
     # ../../profiles/hardware.nix
+    ../../profiles/users.nix
 
     ./services.nix
   ];

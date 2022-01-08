@@ -63,6 +63,10 @@ in
     promptInit = "eval \"$(starship init bash)\"";
   };
 
+  programs.vim = {
+    defaultEditor = true;
+  };
+
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
   ];
