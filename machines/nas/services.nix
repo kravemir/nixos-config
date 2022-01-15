@@ -65,9 +65,6 @@
   };
 
   services.prometheus = {
-    enable = true;
-    port = 5043;
-
     exporters = {
       node = {
         enable = true;
@@ -78,15 +75,40 @@
         port = 9007;
       };
     };
+  };
 
-    scrapeConfigs = [
-      {
-        job_name = "nas-host";
-        static_configs = [{
-          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ];
-        }];
-      }
-    ];
+  containers.prometheus = {
+    autoStart = true;
+    ephemeral = true;
+
+    config = { lib, config, pkgs, ... }: {
+      services.prometheus = {
+        enable = true;
+        port = 5043;
+
+        globalConfig = {
+          scrape_interval = "30s";
+        };
+
+        scrapeConfigs = [
+          {
+            job_name = "nas-host";
+            static_configs = [{
+              targets = [ "127.0.0.1:9007" ];
+            }];
+          }
+        ];
+      };
+    };
+
+    # privateNetwork = true;
+
+    bindMounts = {
+      "/var/lib/prometheus2" = {
+        hostPath = "/storage/data/prometheus2";
+        isReadOnly = false;
+      };
+    };
   };
 
   containers.gitea = {
