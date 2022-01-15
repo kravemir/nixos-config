@@ -1,33 +1,67 @@
 { config, pkgs, ... }:
 
 {
-  services.grafana = {
-    enable = true;
-    port = 5049;
-    addr = "";
+  containers.grafana = {
+    autoStart = true;
+    ephemeral = true;
 
-    provision = {
-      enable = true;
-      datasources = [
-        {
-          name = "Prometheus";
+    config = { lib, config, pkgs, ... }: {
+      services.grafana = {
+        enable = true;
+        port = 5049;
+        addr = "";
 
-          isDefault = true;
+        provision = {
+          enable = true;
+          datasources = [
+            {
+              name = "Prometheus";
 
-          type = "prometheus";
-          url = "http://localhost:5043";
-        }
-      ];
-      dashboards = [
-        {
-          options.path = "/etc/nixos/grafana/dashboards";
-        }
-      ];
+              isDefault = true;
+
+              type = "prometheus";
+              # url = "http://192.168.140.2:5043";
+              url = "http://localhost:5043";
+            }
+          ];
+          dashboards = [
+            {
+              options.path = "/shared/grafana/dashboards";
+            }
+          ];
+        };
+
+        extraOptions = {
+          USERS_DEFAULT_THEME = "light";
+        };
+      };
+
+      # networking.firewall.allowedTCPPorts = [
+      #   5049
+      # ];
     };
 
-    extraOptions = {
-      USERS_DEFAULT_THEME = "light";
+    bindMounts = {
+      "/shared/grafana/dashboards" = {
+        hostPath = "/etc/nixos/grafana/dashboards";
+      };
+      "/var/lib/grafana" = {
+        hostPath = "/storage/data/grafana";
+        isReadOnly = false;
+      };
     };
+
+    # privateNetwork = true;
+    # hostAddress = "192.168.140.2";
+    # localAddress = "192.168.140.63";
+
+    # forwardPorts = [
+    #   {
+    #     containerPort = 5049;
+    #     hostPort = 5049;
+    #     protocol = "tcp";
+    #   }
+    # ];
   };
 
   services.prometheus = {
