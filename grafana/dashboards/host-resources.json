@@ -37,7 +37,7 @@
         "content": "<h1 style=\"text-align:center; margin-top: 1rem\">Computing resources</h1>",
         "mode": "html"
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "8.3.3",
       "transparent": true,
       "type": "text"
     },
@@ -95,7 +95,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -180,7 +180,7 @@
           "titleSize": 14
         }
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -299,7 +299,7 @@
           "titleSize": 14
         }
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -561,6 +561,7 @@
           },
           "exemplar": true,
           "expr": "node_memory_MemTotal_bytes",
+          "format": "table",
           "hide": false,
           "interval": "",
           "legendFormat": "Total",
@@ -573,6 +574,7 @@
           },
           "exemplar": true,
           "expr": "(node_memory_MemTotal_bytes-node_memory_MemAvailable_bytes) or on() vector(0)",
+          "format": "time_series",
           "interval": "",
           "legendFormat": "Used",
           "refId": "Used"
@@ -584,22 +586,18 @@
           "id": "configFromData",
           "options": {
             "applyTo": {
-              "id": "byFrameRefID",
+              "id": "byName",
               "options": "Used"
             },
             "configRefId": "Total",
             "mappings": [
               {
-                "fieldName": "Total",
+                "fieldName": "Value #Total",
                 "handlerKey": "max",
                 "reducerId": "max"
               }
             ]
           }
-        },
-        {
-          "id": "seriesToRows",
-          "options": {}
         }
       ],
       "type": "timeseries"
@@ -616,7 +614,7 @@
         "content": "<h1 style=\"text-align:center; margin-top: 1rem\">Storage</h1>",
         "mode": "html"
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "8.3.3",
       "transparent": true,
       "type": "text"
     },
@@ -676,7 +674,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "8.3.3",
       "repeatDirection": "h",
       "targets": [
         {
@@ -868,7 +866,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "8.3.2",
+      "pluginVersion": "8.3.3",
       "targets": [
         {
           "datasource": {
@@ -994,8 +992,8 @@
       "type": "table"
     }
   ],
-  "refresh": "",
-  "schemaVersion": 33,
+  "refresh": false,
+  "schemaVersion": 34,
   "style": "dark",
   "tags": [
     "Prometheus"
@@ -1023,13 +1021,13 @@
     ]
   },
   "time": {
-    "from": "now-2d",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Machine Resources",
   "uid": "12DLrTAnk",
-  "version": 22,
+  "version": 23,
   "weekStart": ""
 }
