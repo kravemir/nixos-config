@@ -1,6 +1,15 @@
 { config, pkgs, ... }:
 
 {
+  networking = {
+    interfaces = {
+      "br-grafprom".virtual = true;
+    };
+    bridges = {
+      "br-grafprom".interfaces = [];
+    };
+  };
+
   containers.grafana = {
     autoStart = true;
     ephemeral = true;
@@ -20,8 +29,7 @@
               isDefault = true;
 
               type = "prometheus";
-              # url = "http://192.168.140.2:5043";
-              url = "http://localhost:5043";
+              url = "http://192.168.150.3:5043";
             }
           ];
           dashboards = [
@@ -36,9 +44,9 @@
         };
       };
 
-      # networking.firewall.allowedTCPPorts = [
-      #   5049
-      # ];
+      networking.firewall.allowedTCPPorts = [
+        5049
+      ];
     };
 
     bindMounts = {
@@ -51,18 +59,23 @@
       };
     };
 
-    # privateNetwork = true;
-    # hostAddress = "192.168.140.2";
-    # localAddress = "192.168.140.63";
+    privateNetwork = true;
+    hostAddress = "192.168.140.2";
+    localAddress = "192.168.140.63";
 
-    # forwardPorts = [
-    #   {
-    #     containerPort = 5049;
-    #     hostPort = 5049;
-    #     protocol = "tcp";
-    #   }
-    # ];
+    extraVeths.grafProm2.hostBridge = "br-grafprom";
+    extraVeths.grafProm2.localAddress = "192.168.150.2/24";
+
+    forwardPorts = [
+      {
+        containerPort = 5049;
+        hostPort = 5049;
+        protocol = "tcp";
+      }
+    ];
   };
+
+
 
   services.prometheus = {
     exporters = {
@@ -94,14 +107,23 @@
           {
             job_name = "nas-host";
             static_configs = [{
-              targets = [ "127.0.0.1:9007" ];
+              targets = [ "192.168.140.2:9007" ];
             }];
           }
         ];
       };
+
+      networking.firewall.allowedTCPPorts = [
+        5043
+      ];
     };
 
-    # privateNetwork = true;
+    privateNetwork = true;
+    hostAddress = "192.168.140.2";
+    localAddress = "192.168.140.64";
+
+    extraVeths.grafProm3.hostBridge = "br-grafprom";
+    extraVeths.grafProm3.localAddress = "192.168.150.3/24";
 
     bindMounts = {
       "/var/lib/prometheus2" = {
@@ -109,6 +131,14 @@
         isReadOnly = false;
       };
     };
+
+    forwardPorts = [
+      {
+        containerPort = 5043;
+        hostPort = 5043;
+        protocol = "tcp";
+      }
+    ];
   };
 
   containers.gitea = {

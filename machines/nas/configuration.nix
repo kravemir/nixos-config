@@ -78,6 +78,13 @@
       5022 5080
     ];
     allowedUDPPorts = [ 1900 ];
+
+    interfaces = {
+      "ve-prometheus".allowedTCPPorts = [
+        # allow to scrape data from prometheus node exporter
+        9007
+      ];
+    };
   };
 
   system.stateVersion = "21.11";
