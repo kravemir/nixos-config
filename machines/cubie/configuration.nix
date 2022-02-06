@@ -23,6 +23,9 @@
     "enc-system".device = "/dev/disk/by-uuid/ac2e408f-432e-4623-a4ff-4bea469d0a87";
   };
 
+  # Load modules for HW sensors
+  boot.kernelModules = [ "coretemp" "nct6775" ];
+
   # Do not use huge fonts for boot terminal
   hardware.video.hidpi.enable = false;
 
