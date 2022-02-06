@@ -3,13 +3,18 @@
 {
   imports = [
     ./hardware-configuration.nix
+
+    ../../profiles/cli.nix
+    ../../profiles/gui.nix
+    ../../profiles/gui-minimize.nix
+
+    ../../profiles/hardware.nix
   ];
 
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.consoleMode = "auto";
-  boot.loader.systemd-boot.memtest86.enable = true;
 
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -37,22 +42,6 @@
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
   # };
- 
-
-  services.smartd = {
-    enable = true;
-    notifications = {
-      x11.enable = if config.services.xserver.enable then true else false;
-      wall.enable = true;
-    };
-  };
-
-
-  services.xserver.enable = true;
-
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.wayland = false;
-  services.xserver.desktopManager.gnome.enable = true;
 
 
   users.users.miroslav = {
@@ -61,28 +50,7 @@
   };
 
 
-  environment.systemPackages = with pkgs; [
-    git
-
-    vim
-    wget
-    firefox
-
-    nvme-cli
-    usbutils
-    pciutils
-
-    lm_sensors
-    smartmontools
-  ];
-
-
   networking.firewall.enable = true;
-
-
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "memtest86-efi"
-  ];
 
 
   system.stateVersion = "21.11";

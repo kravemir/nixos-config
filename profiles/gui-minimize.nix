@@ -10,7 +10,11 @@
     tracker.enable = false;
   };
 
-  programs.file-roller.enable = true;
   programs.gnome-terminal.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    gnome.gedit
+    gnome.nautilus
+  ];
 }
 
