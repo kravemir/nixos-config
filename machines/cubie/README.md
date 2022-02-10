@@ -1,6 +1,6 @@
 # Cubie
 
-Network attached CUBE for backups storage and experiments.
+Network attached CUBE - homelab server for backups storage and experiments.
 
 ## Setup
 
