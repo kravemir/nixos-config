@@ -22,6 +22,8 @@
 
     lm_sensors
     smartmontools
+
+    hdparm
   ];
 
 

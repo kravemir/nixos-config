@@ -57,6 +57,8 @@ in
     vim_customized
 
     git
+
+    gptfdisk
   ];
 
   programs.bash = {

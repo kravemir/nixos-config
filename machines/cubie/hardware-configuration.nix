@@ -23,6 +23,25 @@
       fsType = "vfat";
     };
 
+  fileSystems."/storage/ssddata" =
+    { device = "/dev/disk/by-uuid/017f263d-d3a5-44a4-b396-c8a196349751";
+      fsType = "ext4";
+      options = [
+        "noatime"
+        "nodiratime"
+        "discard"
+      ];
+    };
+
+  fileSystems."/storage/hdddata" =
+    { device = "/dev/disk/by-uuid/74002430-b880-44dc-badd-c25871f24576";
+      fsType = "ext4";
+      options = [
+        "noatime"
+        "nodiratime"
+      ];
+    };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/8bf9c391-6148-44bc-ba4e-4f56c71a76f8"; }
     ];
