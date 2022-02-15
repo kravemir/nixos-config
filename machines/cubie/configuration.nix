@@ -9,6 +9,9 @@
     ../../profiles/gui-minimize.nix
 
     ../../profiles/hardware.nix
+
+    ./containers.nix
+    ./firewall.nix
   ];
 
 
@@ -40,18 +43,20 @@
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
 
-  networking.firewall = {
-    enable = true;
 
-    allowedTCPPorts = [
-      22
-    ];
-  };
-
+  services.openssh.enable = true;
   services.tailscale.enable = true;
 
 
-  services.openssh.enable = true;
+  # prometheus system monitoring exporter
+  services.prometheus.exporters.node = {
+    enable = true;
+    enabledCollectors = [
+      "logind"
+      "systemd"
+    ];
+    port = 9100;
+  };
 
 
   # Select internationalisation properties.
