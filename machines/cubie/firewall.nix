@@ -6,6 +6,8 @@
 
     allowedTCPPorts = [
       22
+
+      12022
     ];
 
     interfaces = {

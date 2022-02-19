@@ -12,6 +12,8 @@
 
     ./containers.nix
     ./firewall.nix
+
+    ../../private/machines/cubie/containers.nix
   ];
 
 
@@ -42,6 +44,13 @@
   networking.networkmanager.enable = false;
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
+
+
+  networking.nat = {
+    enable = true;
+    internalInterfaces = ["ve-+"];
+    externalInterface = "enp1s0";
+  };
 
 
   services.openssh.enable = true;
