@@ -29,10 +29,30 @@
     "enc-system".device = "/dev/disk/by-uuid/ac2e408f-432e-4623-a4ff-4bea469d0a87";
     "enc-hdddata".device = "/dev/disk/by-uuid/7d0120f7-6f50-428e-9aa5-71a5fc44ff7c";
     "enc-ssddata".device = "/dev/disk/by-uuid/8ca24d0f-6140-49f0-b8d7-e8810f0b60b6";
+
+    "enc-system" = {
+      allowDiscards = true;
+      keyFileSize = 4096;
+      keyFile = "/dev/disk/by-id/usb-Verbatim_STORE_N_GO_9000170E9068E729-0:0-part2";
+    };
+    "enc-ssddata" = {
+      allowDiscards = true;
+      keyFileSize = 4096;
+      keyFile = "/dev/disk/by-id/usb-Verbatim_STORE_N_GO_9000170E9068E729-0:0-part2";
+    };
+    "enc-hdddata" = {
+      keyFileSize = 4096;
+      keyFile = "/dev/disk/by-id/usb-Verbatim_STORE_N_GO_9000170E9068E729-0:0-part2";
+    };
   };
 
-  # Load modules for HW sensors
-  boot.kernelModules = [ "coretemp" "nct6775" ];
+  boot.kernelModules = [
+    # Load modules for HW sensors
+    "coretemp" "nct6775"
+
+    # Add initrd modules for USB decryption key
+    "usb_storage"
+  ];
 
   # Do not use huge fonts for boot terminal
   hardware.video.hidpi.enable = false;
