@@ -39,7 +39,7 @@
 
     bindMounts = {
       "/var/lib/prometheus2" = {
-        hostPath = "/storage/hdddata/prometheus2";
+        hostPath = "/storage/ssddata/monitoring/prometheus2";
         isReadOnly = false;
       };
     };
