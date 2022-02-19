@@ -5,8 +5,6 @@
     ./hardware-configuration.nix
 
     ../../profiles/cli.nix
-    ../../profiles/gui.nix
-    ../../profiles/gui-minimize.nix
 
     ../../profiles/hardware.nix
 
