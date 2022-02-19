@@ -45,16 +45,20 @@
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
 
-
   networking.nat = {
     enable = true;
     internalInterfaces = ["ve-+"];
     externalInterface = "enp1s0";
   };
 
-
-  services.openssh.enable = true;
   services.tailscale.enable = true;
+
+
+  services.openssh = {
+    enable = true;
+    passwordAuthentication = false;
+    permitRootLogin = "no";
+  };
 
 
   # prometheus system monitoring exporter
