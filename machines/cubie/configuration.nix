@@ -14,6 +14,7 @@
     ./firewall.nix
 
     ../../private/machines/cubie/containers.nix
+    ../../private/machines/cubie/networking.nix
   ];
 
 

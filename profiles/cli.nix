@@ -59,6 +59,9 @@ in
     git
 
     gptfdisk
+
+    # resource monitoring tools
+    nethogs iftop
   ];
 
   programs.bash = {
