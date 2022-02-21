@@ -43,13 +43,5 @@
         isReadOnly = false;
       };
     };
-
-    forwardPorts = [
-      {
-        containerPort = 5043;
-        hostPort = 5043;
-        protocol = "tcp";
-      }
-    ];
   };
 }

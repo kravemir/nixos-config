@@ -60,6 +60,9 @@ in
 
     gptfdisk
 
+    # backup tools
+    borgbackup
+
     # resource monitoring tools
     nethogs iftop
   ];

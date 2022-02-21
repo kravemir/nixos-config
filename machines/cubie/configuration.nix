@@ -8,7 +8,9 @@
 
     ../../profiles/hardware.nix
 
-    ./containers.nix
+    ./containers-grafana.nix
+    ./containers-prometheus.nix
+
     ./firewall.nix
 
     ../../private/machines/cubie/containers.nix

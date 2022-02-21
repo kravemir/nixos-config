@@ -7,7 +7,7 @@
     allowedTCPPorts = [
       22
 
-      12022
+      # WARNING: does not filter out forwarded ports !!
     ];
 
     interfaces = {
