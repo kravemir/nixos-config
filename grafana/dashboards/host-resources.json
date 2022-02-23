@@ -23,7 +23,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "links": [],
-  "liveNow": false,
+  "liveNow": true,
   "panels": [
     {
       "gridPos": {
@@ -34,10 +34,10 @@
       },
       "id": 19,
       "options": {
-        "content": "<h1 style=\"text-align:center; margin-top: 1rem\">Computing resources</h1>",
+        "content": "<h1 style=\"text-align:center; margin-top: 1rem\">Machine resources utilisation</h1>",
         "mode": "html"
       },
-      "pluginVersion": "8.3.3",
+      "pluginVersion": "8.4.1",
       "transparent": true,
       "type": "text"
     },
@@ -95,7 +95,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "8.3.3",
+      "pluginVersion": "8.4.1",
       "targets": [
         {
           "datasource": {
@@ -180,7 +180,7 @@
           "titleSize": 14
         }
       },
-      "pluginVersion": "8.3.3",
+      "pluginVersion": "8.4.1",
       "targets": [
         {
           "datasource": {
@@ -299,7 +299,7 @@
           "titleSize": 14
         }
       },
-      "pluginVersion": "8.3.3",
+      "pluginVersion": "8.4.1",
       "targets": [
         {
           "datasource": {
@@ -371,6 +371,10 @@
       "type": "gauge"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus_data_source}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -430,7 +434,24 @@
           },
           "unit": "percent"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "custom.fillOpacity",
+                "value": 20
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 0
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 7,
@@ -446,7 +467,8 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.3.2",
@@ -454,27 +476,39 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${prometheus_data_source}"
           },
           "exemplar": true,
-          "expr": "((1- rate(node_cpu_seconds_total{mode=\"idle\"}[2m])) * 100 > 0) or on() vector(0)",
+          "expr": "((1 - avg(rate(node_cpu_seconds_total{mode=\"idle\"}[1m]))) * 100 > 0) or on() vector(0)",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "Load",
+          "legendFormat": "Load Total",
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus_data_source}"
+          },
+          "exemplar": true,
+          "expr": "((1 - min(rate(node_cpu_seconds_total{mode=\"idle\"}[1m]))) * 100 > 0) or on() vector(0)",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Load Highest Core",
+          "refId": "B"
         }
       ],
       "title": "CPU utilization",
-      "transformations": [
-        {
-          "id": "seriesToRows",
-          "options": {}
-        }
-      ],
+      "transformations": [],
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${prometheus_data_source}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -533,7 +567,24 @@
           },
           "unit": "decbytes"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Used including caches"
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 0
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 25
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 7,
@@ -549,7 +600,8 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.3.2",
@@ -557,7 +609,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${prometheus_data_source}"
           },
           "exemplar": true,
           "expr": "node_memory_MemTotal_bytes",
@@ -570,7 +622,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${prometheus_data_source}"
           },
           "exemplar": true,
           "expr": "(node_memory_MemTotal_bytes-node_memory_MemAvailable_bytes) or on() vector(0)",
@@ -578,6 +630,19 @@
           "interval": "",
           "legendFormat": "Used",
           "refId": "Used"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus_data_source}"
+          },
+          "exemplar": true,
+          "expr": "(node_memory_MemTotal_bytes-node_memory_MemFree_bytes) or on() vector(0)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Used including caches",
+          "refId": "Used including caches"
         }
       ],
       "title": "Memory used",
@@ -586,15 +651,14 @@
           "id": "configFromData",
           "options": {
             "applyTo": {
-              "id": "byName",
-              "options": "Used"
+              "id": "byType",
+              "options": "number"
             },
             "configRefId": "Total",
             "mappings": [
               {
-                "fieldName": "Value #Total",
-                "handlerKey": "max",
-                "reducerId": "max"
+                "fieldName": "Value",
+                "handlerKey": "max"
               }
             ]
           }
@@ -614,7 +678,7 @@
         "content": "<h1 style=\"text-align:center; margin-top: 1rem\">Storage</h1>",
         "mode": "html"
       },
-      "pluginVersion": "8.3.3",
+      "pluginVersion": "8.4.1",
       "transparent": true,
       "type": "text"
     },
@@ -674,7 +738,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "8.3.3",
+      "pluginVersion": "8.4.1",
       "repeatDirection": "h",
       "targets": [
         {
@@ -866,7 +930,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "8.3.3",
+      "pluginVersion": "8.4.1",
       "targets": [
         {
           "datasource": {
@@ -992,8 +1056,8 @@
       "type": "table"
     }
   ],
-  "refresh": false,
-  "schemaVersion": 34,
+  "refresh": "30s",
+  "schemaVersion": 35,
   "style": "dark",
   "tags": [
     "Prometheus"
@@ -1002,7 +1066,7 @@
     "list": [
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "Prometheus",
           "value": "Prometheus"
         },
@@ -1026,8 +1090,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Machine Resources",
+  "title": "Machine resources utilisation",
   "uid": "12DLrTAnk",
-  "version": 23,
+  "version": 24,
   "weekStart": ""
 }
