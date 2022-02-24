@@ -58,7 +58,8 @@ in
 
     git
 
-    gptfdisk
+    # disk and partition manipulation tools
+    gptfdisk parted
 
     # backup tools
     borgbackup
