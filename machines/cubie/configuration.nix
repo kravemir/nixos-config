@@ -77,6 +77,12 @@
     externalInterface = "enp1s0";
   };
 
+  networking.dhcpcd = {
+    # to make network-online.target wait for real network connection
+    wait = "ipv4";
+    extraConfig = "noipv4ll";
+  };
+
   services.tailscale.enable = true;
 
 
