@@ -9,6 +9,7 @@
     ../../profiles/hardware.nix
 
     ./containers-grafana.nix
+    ./containers-ldap.nix
     ./containers-prometheus.nix
 
     ./firewall.nix
@@ -73,8 +74,10 @@
 
   networking.nat = {
     enable = true;
-    internalInterfaces = ["ve-+"];
     externalInterface = "enp1s0";
+
+    # TODO: disable internet access
+    internalInterfaces = ["ve-+"];
   };
 
   networking.dhcpcd = {
