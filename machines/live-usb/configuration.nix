@@ -14,16 +14,20 @@
     ../../profiles/hardware.nix
   ];
 
-  # Use GRUB boot loader for legacy BIOS Boot
+  # Use GRUB boot loader
   boot.loader.grub.enable = true;
-  boot.loader.grub.efiSupport = false;
   boot.loader.grub.device = "/dev/disk/by-id/usb-Realtek_RTL9210_NVME_012345681310-0:0";
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.efiInstallAsRemovable = true;
 
-  # Use the systemd-boot EFI boot loader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # UEFI config
+  boot.loader.efi.efiSysMountPoint = "/boot/EFI";
+  boot.loader.efi.canTouchEfiVariables = false;
 
-  boot.initrd.luks.devices."enc-system".device = "/dev/disk/by-uuid/a2d1776e-07e3-4c15-b7fb-c1ef1d6ad91b";
+  boot.initrd.luks.devices = {
+    "enc-system".device = "/dev/disk/by-uuid/8edd467f-bdb6-4693-9584-8e16485a186a";
+    "enc-data".device = "/dev/disk/by-uuid/56ee9dd2-c9fc-44d8-b5b5-87f024a031d6";
+  };
 
   networking.hostName = "nixos-live-usb";
 
