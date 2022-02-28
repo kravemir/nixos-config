@@ -2,13 +2,14 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
 
     ../../profiles/cli.nix
+    ../../profiles/gui.nix
     ../../profiles/localization.nix
 
     ../../profiles/hardware.nix
@@ -40,24 +41,12 @@
   #   keyMap = "us";
   # };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = "eurosign:e";
-
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
   # Enable sound.
   # sound.enable = true;
   # hardware.pulseaudio.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
   
   users.users.miroslav = {
     isNormalUser = true;
@@ -65,6 +54,13 @@
   };
 
   networking.firewall.enable = true;
+
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "google-chrome"
+    "memtest86-efi"
+  ];
+
 
   system.stateVersion = "21.11"; # Did you read the comment?
 }

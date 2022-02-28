@@ -16,7 +16,14 @@
   services.xserver.libinput.enable = true;
 
   environment.systemPackages = with pkgs; [
-     firefox
+    # browsers
+    firefox google-chrome
+
+    # graphical tools
+    digikam gimp inkscape
+
+    # other tools
+    filezilla
   ];
 }
 
