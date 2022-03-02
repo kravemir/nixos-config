@@ -7,7 +7,12 @@
 
   services.smartd = {
     enable = true;
+
     autodetect = true;
+    extraOptions = [
+      "--interval=7200"
+    ];
+
     notifications = {
       mail.enable = if config.services.postfix.enable then true else false;
       x11.enable = if config.services.xserver.enable then true else false;
