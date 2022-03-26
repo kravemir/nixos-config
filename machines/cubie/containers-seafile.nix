@@ -6,6 +6,10 @@
     ephemeral = true;
 
     config = { lib, config, pkgs, ... }: {
+      imports = [
+        ../../modules/seafile-custom.nix
+      ];
+
       services.nginx = {
         enable = true;
 
@@ -54,7 +58,7 @@
         };
       };
 
-      services.seafile = {
+      services.seafile-custom = {
         enable = true;
 
         ccnetSettings.General.SERVICE_URL = "http://cubie:8085";
@@ -63,13 +67,32 @@
         initialAdminPassword = "change-this-password";
       };
 
+
+      users.users.seafile = {
+        uid = 2002;
+        group = "seafile";
+        description = "Seafile Service";
+        isSystemUser = true;
+      };
+
+      users.groups.seafile = lib.mkForce {
+        gid = 2002;
+      };
+
       networking.firewall.allowedTCPPorts = [
         8085
       ];
     };
 
     bindMounts = {
-      # TODO: mount data directories to persistent storage
+      "/var/lib/seafile/ssd" = {
+        hostPath = "/storage/ssddata/files/seafile";
+        isReadOnly = false;
+      };
+      "/var/lib/seafile" = {
+        hostPath = "/storage/hdddata/files/seafile";
+        isReadOnly = false;
+      };
     };
 
     privateNetwork = true;
