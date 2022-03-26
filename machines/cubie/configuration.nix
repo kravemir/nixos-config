@@ -11,6 +11,7 @@
     ./containers-grafana.nix
     ./containers-ldap.nix
     ./containers-prometheus.nix
+    ./containers-seafile.nix
 
     ./firewall.nix
 
@@ -60,7 +61,7 @@
 
 
   powerManagement.powerUpCommands = with pkgs;''
-    ${bash}/bin/bash -c '${hdparm}/bin/hdparm -S 48 -B 100 $(${utillinux}/bin/lsblk -dnp -o name,rota | ${gnugrep}/bin/grep ".*\\s1"| ${coreutils}/bin/cut -d" " -f1)'
+    ${bash}/bin/bash -c '${hdparm}/bin/hdparm -S 100 -B 80 $(${utillinux}/bin/lsblk -dnp -o name,rota | ${gnugrep}/bin/grep ".*\\s1"| ${coreutils}/bin/cut -d" " -f1)'
   '';
 
 
@@ -76,8 +77,8 @@
     enable = true;
     externalInterface = "enp1s0";
 
-    # TODO: disable internet access
-    internalInterfaces = ["ve-+"];
+    # do not enable to not enable internet access
+    # internalInterfaces = ["ve-+"];
   };
 
   networking.dhcpcd = {
