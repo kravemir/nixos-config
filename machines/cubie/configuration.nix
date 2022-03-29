@@ -8,6 +8,7 @@
 
     ../../profiles/hardware.nix
 
+    ./containers-gitea.nix
     ./containers-grafana.nix
     ./containers-ldap.nix
     ./containers-prometheus.nix
@@ -61,7 +62,7 @@
 
 
   powerManagement.powerUpCommands = with pkgs;''
-    ${bash}/bin/bash -c '${hdparm}/bin/hdparm -S 100 -B 80 $(${utillinux}/bin/lsblk -dnp -o name,rota | ${gnugrep}/bin/grep ".*\\s1"| ${coreutils}/bin/cut -d" " -f1)'
+    ${bash}/bin/bash -c '${hdparm}/bin/hdparm -B 254 -S 120 $(${utillinux}/bin/lsblk -dnp -o name,rota | ${gnugrep}/bin/grep ".*\\s1"| ${coreutils}/bin/cut -d" " -f1)'
   '';
 
 
