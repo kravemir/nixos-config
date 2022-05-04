@@ -19,11 +19,21 @@
     # browsers
     firefox google-chrome
 
+    # communication tools
+    slack
+
     # graphical tools
     digikam gimp inkscape
 
     # other tools
     filezilla
+
+    # gnome extensions
+    gnome.gnome-tweaks
+    gnomeExtensions.caffeine
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.sound-output-device-chooser
+    gnomeExtensions.system-monitor
   ];
 }
 

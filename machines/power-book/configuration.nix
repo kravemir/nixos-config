@@ -2,8 +2,13 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib,  ... }:
 
+let
+  openvpn3 = with pkgs; callPackage ../../modules/openvpn3.nix {
+    inherit (python3Packages) docutils jinja2;
+  };
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -26,19 +31,21 @@
 
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_5_17;
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "miroslav-power-book";
 
-  # Set your time zone.
-  # time.timeZone = "Europe/Amsterdam";
+  services.xserver.displayManager.gdm.wayland = false;
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
+  nix.extraOptions = "keep-outputs = true";
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  services.dbus.packages = [ openvpn3 ];
+  users = {
+    users = {
+      openvpn = { isSystemUser = true; group = "openvpn"; };
+    };
+    groups = {
+      openvpn = {};
+    };
+  };
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -74,6 +81,13 @@
     wget
     firefox
     git
+
+    openvpn3
+
+    jetbrains.idea-ultimate
+    jetbrains.goland
+    jetbrains.pycharm-professional
+    jetbrains.webstorm
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -84,11 +98,6 @@
   #   enableSSHSupport = true;
   # };
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
@@ -98,10 +107,18 @@
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "google-chrome"
     "memtest86-efi"
+    "slack"
+
+    "idea-ultimate"
+    "goland"
+    "pycharm-professional"
+    "webstorm"
   ];
 
   services.udev.extraRules = ''
-    # power down discrete GPU (default is "on", always high-power)
+    # enable PCI Runtime Power Management (default is "on", always high-power)
+    KERNEL=="0000:03:00.[01]",    SUBSYSTEM=="pci", ATTR{power/control}="auto"
+    KERNEL=="0000:04:00.[0]",     SUBSYSTEM=="pci", ATTR{power/control}="auto"
     KERNEL=="0000:07:00.[01256]", SUBSYSTEM=="pci", ATTR{power/control}="auto"
   '';
 
