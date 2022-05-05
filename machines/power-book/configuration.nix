@@ -4,14 +4,11 @@
 
 { config, pkgs, lib,  ... }:
 
-let
-  openvpn3 = with pkgs; callPackage ../../modules/openvpn3.nix {
-    inherit (python3Packages) docutils jinja2;
-  };
-in
 {
   imports = [
     ./hardware-configuration.nix
+
+    ../../modules/networking/openvpn3.nix
 
     ../../profiles/cli.nix
     ../../profiles/gui.nix
@@ -37,15 +34,9 @@ in
 
   nix.extraOptions = "keep-outputs = true";
 
-  services.dbus.packages = [ openvpn3 ];
-  users = {
-    users = {
-      openvpn = { isSystemUser = true; group = "openvpn"; };
-    };
-    groups = {
-      openvpn = {};
-    };
-  };
+  services.openvpn3.client.enable = true;
+
+  virtualisation.docker.enable = true;
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -71,7 +62,11 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.miroslav = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [
+      "docker"
+      "networkmanager"
+      "wheel"
+    ];
   };
 
   # List packages installed in system profile. To search, run:
@@ -81,8 +76,6 @@ in
     wget
     firefox
     git
-
-    openvpn3
 
     jetbrains.idea-ultimate
     jetbrains.goland

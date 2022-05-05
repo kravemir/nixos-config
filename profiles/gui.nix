@@ -20,6 +20,7 @@
     firefox google-chrome
 
     # communication tools
+    signal-desktop
     slack
 
     # graphical tools
