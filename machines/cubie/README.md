@@ -16,6 +16,17 @@ Create `/etc/nixos/configuration.nix` with following contents:
 }
 ```
 
+Configure Mikrotik router to use DNS resolver when machine is online:
+
+```
+/tool netwatch add \
+    comment="DNS redirection" \
+    host=192.168.88.154 \
+    interval=1s \
+    down-script="/ip dhcp-server network set 0 dns-server=\"\"" \
+    up-script="/ip dhcp-server network set 0 dns-server=192.168.88.154"
+```
+
 ## Operations
 
 ### LDAP - management

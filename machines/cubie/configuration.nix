@@ -13,6 +13,7 @@
     ./containers-ldap.nix
     ./containers-prometheus.nix
     ./containers-seafile.nix
+    ./containers-unbound.nix
 
     ./firewall.nix
 

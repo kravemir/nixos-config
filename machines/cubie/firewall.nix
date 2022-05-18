@@ -7,7 +7,15 @@
     allowedTCPPorts = [
       22
 
+      # for unbound container
+      53
+
       # WARNING: does not filter out forwarded ports !!
+    ];
+
+    allowedUDPPorts = [
+      # for unbound container
+      53
     ];
 
     interfaces = {
