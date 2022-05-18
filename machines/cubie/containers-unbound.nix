@@ -50,14 +50,14 @@
               name = "lanview";
               local-zone = "home.kravemir.org inform";
               local-data = [
-                "'cubie.home.kravemir.org IN A 192.168.88.154'"
+                "'cubie.home.kravemir.org 5 IN A 192.168.88.154'"
               ];
             }
             {
               name = "tailscaleview";
               local-zone = "home.kravemir.org inform";
               local-data = [
-                "'cubie.home.kravemir.org in A 100.121.230.54'"
+                "'cubie.home.kravemir.org 5 in A 100.121.230.54'"
               ];
             }
           ];

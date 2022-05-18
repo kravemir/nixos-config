@@ -19,12 +19,14 @@ Create `/etc/nixos/configuration.nix` with following contents:
 Configure Mikrotik router to use DNS resolver when machine is online:
 
 ```
+/ip dhcp-server network set 0 dns-server=192.168.88.1
+
 /tool netwatch add \
-    comment="DNS redirection" \
+    comment="Use DNS when up" \
     host=192.168.88.154 \
     interval=1s \
-    down-script="/ip dhcp-server network set 0 dns-server=\"\"" \
-    up-script="/ip dhcp-server network set 0 dns-server=192.168.88.154"
+    down-script="/ip dhcp-client set 0 use-peer-dns=yes; /ip dns set servers=\"\"; /ip dns cache flush" \
+    up-script="/ip dhcp-client set 0 use-peer-dns=no; /ip dns set servers=192.168.88.154; /ip dns cache flush"
 ```
 
 ## Operations
