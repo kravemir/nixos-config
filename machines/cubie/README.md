@@ -16,6 +16,18 @@ Create `/etc/nixos/configuration.nix` with following contents:
 }
 ```
 
+Configure ACME:
+
+```bash
+# root-login to proxy container
+nixos-container root-login proxy
+
+# generate certificate
+cd /var/lib/acme/
+lego --accept-tos --path . -d cubie.home.kravemir.org --email kravec.miroslav@gmail.com --key-type ec256 --dns manual run
+chown -R acme:acme .
+```
+
 Configure Mikrotik router to use DNS resolver when machine is online:
 
 ```

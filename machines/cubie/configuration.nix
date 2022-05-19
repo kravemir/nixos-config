@@ -12,6 +12,7 @@
     ./containers-grafana.nix
     ./containers-ldap.nix
     ./containers-prometheus.nix
+    ./containers-proxy.nix
     ./containers-seafile.nix
     ./containers-unbound.nix
 
@@ -81,6 +82,7 @@
 
     # do not enable to not enable internet access
     # internalInterfaces = ["ve-+"];
+    internalInterfaces = [ "ve-proxy+" ];
   };
 
   networking.dhcpcd = {
