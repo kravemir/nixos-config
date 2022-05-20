@@ -25,6 +25,13 @@ nixos-container root-login proxy
 # generate certificate
 cd /var/lib/acme/
 lego --accept-tos --path . -d cubie.home.kravemir.org --email kravec.miroslav@gmail.com --key-type ec256 --dns manual run
+
+# create fullchain.crt
+cat certificates/cubie.home.kravemir.org.crt certificates/cubie.home.kravemir.org.issuer.crt   > certificates/cubie.home.kravemir.org.fullchain.crt
+
+# set correct permissions
+chmod -R 640 certificates/cubie.home.kravemir.org.*
+chmod 750 certificates/
 chown -R acme:acme .
 ```
 

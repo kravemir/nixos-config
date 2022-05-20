@@ -23,7 +23,7 @@
         enable = true;
         user = "git";
 
-        rootUrl = "http://cubie:5080/";
+        rootUrl = "http://cubie.home.kravemir.org/gitea";
 
         httpPort = 5080;
         ssh.clonePort = 5022;
@@ -40,7 +40,7 @@
         useDefaultShell = true;
       };
 
-      users.groups.gitea = lib.mkForce {
+      users.groups.gitea = {
         gid = 2001;
       };
 
@@ -62,11 +62,6 @@
     localAddress = "192.168.140.51";
 
     forwardPorts = [
-      {
-        containerPort = 5080;
-        hostPort = 5080;
-        protocol = "tcp";
-      }
       {
         containerPort = 22;
         hostPort = 5022;

@@ -15,6 +15,8 @@
         port = 5049;
         addr = "";
 
+        rootUrl = "http://cubie.home.kravemir.org/grafana/";
+
         provision = {
           enable = true;
           datasources = [
@@ -55,19 +57,9 @@
     };
 
     privateNetwork = true;
-    hostAddress = "192.168.140.2";
-    localAddress = "192.168.140.63";
 
     extraVeths.grafProm2.hostBridge = "br-grafprom";
     extraVeths.grafProm2.localAddress = "192.168.150.2/24";
-
-    forwardPorts = [
-      {
-        containerPort = 5049;
-        hostPort = 5049;
-        protocol = "tcp";
-      }
-    ];
   };
 
   containers.prometheus = {

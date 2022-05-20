@@ -1,11 +1,77 @@
 { config, pkgs, ... }:
 
 {
+  networking.bridges = {
+    "br-proxy-gitea".interfaces = [];
+    "br-proxy-grafa".interfaces = [];
+  };
+
   containers.proxy = {
     autoStart = true;
     ephemeral = true;
 
     config = { lib, config, pkgs, ... }: {
+      services.nginx = {
+        enable = true;
+
+        appendHttpConfig = ''
+          # this is required to proxy Grafana Live WebSocket connections.
+          map $http_upgrade $connection_upgrade {
+            default upgrade;
+            ''' close;
+          }
+        '';
+
+        recommendedTlsSettings = true;
+        recommendedOptimisation = true;
+        recommendedGzipSettings = true;
+        recommendedProxySettings = true;
+
+        virtualHosts."cubie.home.kravemir.org" = {
+          forceSSL = true;
+
+          sslCertificateKey = "/var/lib/acme/certificates/cubie.home.kravemir.org.key";
+          sslCertificate    = "/var/lib/acme/certificates/cubie.home.kravemir.org.fullchain.crt";
+
+          locations."/gitea/" = {
+            proxyPass = "http://192.168.161.3:5080/";
+
+            extraConfig = ''
+              # proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+            '';
+          };
+
+          locations."/grafana/" = {
+            proxyPass = "http://192.168.162.3:5049/";
+
+            extraConfig = ''
+              # proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+            '';
+          };
+          locations."/grafana/api/live" = {
+            proxyPass = "http://192.168.162.3:5049/";
+
+            extraConfig = ''
+              rewrite  ^/grafana/(.*)  /$1 break;
+
+              proxy_http_version 1.1;
+              # proxy_set_header Host $host;
+              proxy_set_header Connection $connection_upgrade;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+            '';
+          };
+        };
+      };
+
       # TODO: doesn't work well with dnsProvider = "manual"
       #
       # security.acme = {
@@ -27,12 +93,29 @@
         isSystemUser = true;
       };
 
+      users.users.nginx = lib.mkForce {
+        uid = 2006;
+        group = "nginx";
+        description = "NGINX Service";
+        isSystemUser = true;
+        extraGroups = [ "acme" ];
+      };
+
       users.groups.acme = {
         gid = 2005;
       };
 
+      users.groups.nginx = lib.mkForce {
+        gid = 2006;
+      };
+
       environment.systemPackages = with pkgs; [
         lego
+      ];
+
+      networking.firewall.allowedTCPPorts = [
+        80
+        443
       ];
     };
 
@@ -46,5 +129,36 @@
         isReadOnly = false;
       };
     };
+
+    forwardPorts = [
+      {
+        containerPort = 80;
+        hostPort = 80;
+        protocol = "tcp";
+      }
+      {
+        containerPort = 443;
+        hostPort = 443;
+        protocol = "tcp";
+      }
+    ];
+  };
+
+  containers.proxy = {
+    extraVeths.proxyToGitea.hostBridge = "br-proxy-gitea";
+    extraVeths.proxyToGitea.localAddress = "192.168.161.2/24";
+
+    extraVeths.proxyToGrafa.hostBridge = "br-proxy-grafa";
+    extraVeths.proxyToGrafa.localAddress = "192.168.162.2/24";
+  };
+
+  containers.gitea = {
+    extraVeths.giteaToProxy.hostBridge = "br-proxy-gitea";
+    extraVeths.giteaToProxy.localAddress = "192.168.161.3/24";
+  };
+
+  containers.grafana = {
+    extraVeths.grafaToProxy.hostBridge = "br-proxy-grafa";
+    extraVeths.grafaToProxy.localAddress = "192.168.162.3/24";
   };
 }
