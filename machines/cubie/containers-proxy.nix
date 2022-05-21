@@ -4,6 +4,7 @@
   networking.bridges = {
     "br-proxy-gitea".interfaces = [];
     "br-proxy-grafa".interfaces = [];
+    "br-proxy-seafi".interfaces = [];
   };
 
   containers.proxy = {
@@ -67,6 +68,22 @@
               proxy_set_header X-Real-IP $remote_addr;
               proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
               proxy_set_header X-Forwarded-Proto $scheme;
+            '';
+          };
+
+          locations."/seafile/" = {
+            proxyPass = "http://192.168.163.3:8085/seafile/";
+
+            extraConfig = ''
+              # rewrite  ^/seafile/(.*)  /$1 break;
+            '';
+          };
+
+          locations."/seafhttp/" = {
+            proxyPass = "http://192.168.163.3:8085/seafhttp/";
+
+            extraConfig = ''
+              # rewrite  ^/seafile/(.*)  /$1 break;
             '';
           };
         };
@@ -150,6 +167,9 @@
 
     extraVeths.proxyToGrafa.hostBridge = "br-proxy-grafa";
     extraVeths.proxyToGrafa.localAddress = "192.168.162.2/24";
+
+    extraVeths.proxyToSeafi.hostBridge = "br-proxy-seafi";
+    extraVeths.proxyToSeafi.localAddress = "192.168.163.2/24";
   };
 
   containers.gitea = {
@@ -160,5 +180,10 @@
   containers.grafana = {
     extraVeths.grafaToProxy.hostBridge = "br-proxy-grafa";
     extraVeths.grafaToProxy.localAddress = "192.168.162.3/24";
+  };
+
+  containers.seafile = {
+    extraVeths.seafiToProxy.hostBridge = "br-proxy-seafi";
+    extraVeths.seafiToProxy.localAddress = "192.168.163.3/24";
   };
 }

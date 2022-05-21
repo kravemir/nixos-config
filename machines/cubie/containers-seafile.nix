@@ -30,7 +30,7 @@
               "cubie"
             ];
 
-            locations."/".extraConfig = ''
+            locations."/seafile/".extraConfig = ''
               proxy_pass          http://seahub-gunicorn;
               proxy_set_header    Host $host;
               proxy_set_header    X-Real-IP $remote_addr;
@@ -42,7 +42,7 @@
               client_max_body_size 0;
             '';
 
-            locations."/seafhttp".extraConfig = ''
+            locations."/seafhttp/".extraConfig = ''
               rewrite               ^/seafhttp(.*)$ $1 break;
               proxy_pass            http://127.0.0.1:8082;
               client_max_body_size  0;
@@ -54,6 +54,10 @@
 
               send_timeout          36000s;
             '';
+            locations."/seafile/media/".extraConfig = ''
+              rewrite ^/seafile/media(.*)$ /media$1 break;
+              root /var/lib/seafile/ssd/seahub/media;
+            '';
           };
         };
       };
@@ -61,7 +65,17 @@
       services.seafile-custom = {
         enable = true;
 
-        ccnetSettings.General.SERVICE_URL = "http://cubie:8085";
+        ccnetSettings.General.SERVICE_URL = "http://cubie.home.kravemir.org/seafile";
+
+        seahubExtraConf = ''
+          SITE_ROOT='/seafile/'
+          SERVE_STATIC = False
+          MEDIA_URL = '/seafile/media/'
+          COMPRESS_URL = MEDIA_URL
+          STATIC_URL = MEDIA_URL + 'assets/'
+          LOGIN_URL = '/seafile/accounts/login/'
+          FILE_SERVER_ROOT = 'https://cubie.home.kravemir.org/seafhttp'
+        '';
 
         adminEmail = "kravec.miroslav@gmail.com";
         initialAdminPassword = "change-this-password";
@@ -96,15 +110,5 @@
     };
 
     privateNetwork = true;
-    hostAddress = "192.168.140.2";
-    localAddress = "192.168.140.71";
-
-    forwardPorts = [
-      {
-        containerPort = 8085;
-        hostPort = 8085;
-        protocol = "tcp";
-      }
-    ];
   };
 }
