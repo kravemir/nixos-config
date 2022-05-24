@@ -3,6 +3,8 @@
 {
   boot.loader.systemd-boot.memtest86.enable = true;
 
+  powerManagement.cpuFreqGovernor = "ondemand";
+
   services.fwupd.enable = true;
 
   services.smartd = {

@@ -23,8 +23,19 @@
     signal-desktop
     slack
 
+    # editors
+    apostrophe
+
     # graphical tools
     digikam gimp inkscape
+
+    # office
+    hunspell
+    hunspellDicts.cs-cz
+    hunspellDicts.en-us
+    hunspellDicts.en-gb-large
+    hunspellDicts.sk-sk
+    libreoffice
 
     # other tools
     filezilla

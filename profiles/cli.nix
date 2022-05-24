@@ -54,9 +54,11 @@ in
   environment.systemPackages = with pkgs; [
     starship
 
-    vim_customized
+    # editing tools
+    yq-go vim_customized
 
-    git
+    # developer tools
+    git sqlite
 
     # disk and partition manipulation tools
     gptfdisk parted
@@ -64,15 +66,19 @@ in
     # backup tools
     borgbackup
 
+    # networking
+    bind
+
     # resource monitoring tools
     nethogs iftop
   ];
 
   programs.bash = {
-    promptInit = "eval \"$(starship init bash)\"";
+    promptInit = ''eval "$(starship init bash)"'';
   };
 
   programs.vim = {
+    package = vim_customized;
     defaultEditor = true;
   };
 
