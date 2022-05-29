@@ -8,6 +8,7 @@
 
     ../../profiles/hardware.nix
 
+    ./containers-archivekeep.nix
     ./containers-gitea.nix
     ./containers-grafana.nix
     ./containers-ldap.nix

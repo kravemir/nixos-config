@@ -2,6 +2,7 @@
 
 {
   networking.bridges = {
+    "br-proxy-archi".interfaces = [];
     "br-proxy-gitea".interfaces = [];
     "br-proxy-grafa".interfaces = [];
     "br-proxy-seafi".interfaces = [];
@@ -33,6 +34,10 @@
 
           sslCertificateKey = "/var/lib/acme/certificates/cubie.home.kravemir.org.key";
           sslCertificate    = "/var/lib/acme/certificates/cubie.home.kravemir.org.fullchain.crt";
+
+          locations."/archivekeep/" = {
+            proxyPass = "http://192.168.164.3:4202/";
+          };
 
           locations."/gitea/" = {
             proxyPass = "http://192.168.161.3:5080/";
@@ -162,6 +167,9 @@
   };
 
   containers.proxy = {
+    extraVeths.proxyToArchi.hostBridge = "br-proxy-archi";
+    extraVeths.proxyToArchi.localAddress = "192.168.164.2/24";
+
     extraVeths.proxyToGitea.hostBridge = "br-proxy-gitea";
     extraVeths.proxyToGitea.localAddress = "192.168.161.2/24";
 
@@ -170,6 +178,11 @@
 
     extraVeths.proxyToSeafi.hostBridge = "br-proxy-seafi";
     extraVeths.proxyToSeafi.localAddress = "192.168.163.2/24";
+  };
+
+  containers.archivekeep = {
+    extraVeths.archiToProxy.hostBridge = "br-proxy-archi";
+    extraVeths.archiToProxy.localAddress = "192.168.164.3/24";
   };
 
   containers.gitea = {
