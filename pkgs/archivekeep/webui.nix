@@ -1,5 +1,6 @@
 { mkYarnPackage
 , fetchFromGitHub
+, fetchYarnDeps
 }:
 mkYarnPackage rec {
   name = "archivekeep-webui";
@@ -12,8 +13,10 @@ mkYarnPackage rec {
   };
 
   packageJSON = ./webui-package.json;
-  yarnLock = ./webui-yarn.lock;
-  yarnNix = ./webui-yarn.nix;
+  yarnOfflineCache = fetchYarnDeps {
+    yarnLock = src + "/yarn.lock";
+    sha256 = "0fcwla9vsxmxqn2lsiyh1igl7rc8dxgsrhp5j7dpv0km10h2ylp8";
+  };
 
   configurePhase = ''
     ln -s $node_modules node_modules

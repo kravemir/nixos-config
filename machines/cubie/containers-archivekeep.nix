@@ -7,7 +7,7 @@
 
     config = { lib, config, pkgs, ... }:
     let
-      archivekeep = import ../../pkgs/archivekeep/local.nix;
+      archivekeep = pkgs.callPackage ../../pkgs/archivekeep {};
     in
     {
       systemd.services = let
