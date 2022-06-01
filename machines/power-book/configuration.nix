@@ -38,9 +38,31 @@
 
   services.tailscale.enable = true;
 
-  powerManagement.powerUpCommands = with pkgs;''
-    ${bash}/bin/bash -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold'
-  '';
+  # disable for TLP, auto-enabled by gnome-core by default
+  services.power-profiles-daemon.enable = false;
+
+  services.tlp = {
+    enable = true;
+
+    settings = {
+      START_CHARGE_THRESH_BAT0  = 72;
+      STOP_CHARGE_THRESH_BAT0   = 80;
+
+      CPU_SCALING_GOVERNOR_ON_AC  = "ondemand";
+      CPU_SCALING_GOVERNOR_ON_BAT = "ondemand";
+      CPU_BOOST_ON_AC             = 0;
+      CPU_BOOST_ON_BAT            = 0;
+      PLATFORM_PROFILE_ON_AC      = "quiet";
+      PLATFORM_PROFILE_ON_BAT     = "quiet";
+
+      USB_DENYLIST = "0bda:8153";
+      USB_EXCLUDE_AUDIO = false;
+
+      RUNTIME_PM_ON_AC    = "auto";
+      RUNTIME_PM_ON_BAT   = "auto";
+      RUNTIME_PM_DISABLE  = "07:00.3 07:00.4";
+    };
+  };
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -55,10 +77,6 @@
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
-
-  # Enable sound.
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
 
   users.users.miroslav = {
     isNormalUser = true;
@@ -108,14 +126,6 @@
 
     "mongodb-compass"
   ];
-
-  services.udev.extraRules = ''
-    # enable PCI Runtime Power Management (default is "on", always high-power)
-    KERNEL=="0000:03:00.[01]",    SUBSYSTEM=="pci", ATTR{power/control}="auto"
-    KERNEL=="0000:04:00.[0]",     SUBSYSTEM=="pci", ATTR{power/control}="auto"
-    KERNEL=="0000:07:00.[01256]", SUBSYSTEM=="pci", ATTR{power/control}="auto"
-  '';
-
 
   system.stateVersion = "21.11";
 }
