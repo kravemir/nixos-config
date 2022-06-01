@@ -4,6 +4,7 @@
 /configuration.nix
 /hardware-configuration.nix
 
+private.nix
 /private
 
 result

@@ -22,6 +22,7 @@
     # communication tools
     signal-desktop
     slack
+    zoom-us
 
     # editors
     apostrophe
@@ -41,6 +42,7 @@
     filezilla
 
     # gnome extensions
+    gnome.gnome-power-manager
     gnome.gnome-tweaks
     gnomeExtensions.caffeine
     gnomeExtensions.dash-to-dock

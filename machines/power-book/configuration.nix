@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, lib,  ... }:
 
 {
@@ -16,6 +12,8 @@
 
     ../../profiles/hardware.nix
     ../../profiles/laptop.nix
+
+    ./private.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -38,6 +36,12 @@
 
   virtualisation.docker.enable = true;
 
+  services.tailscale.enable = true;
+
+  powerManagement.powerUpCommands = with pkgs;''
+    ${bash}/bin/bash -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold'
+  '';
+
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
   # console = {
@@ -56,10 +60,6 @@
   # sound.enable = true;
   # hardware.pulseaudio.enable = true;
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.miroslav = {
     isNormalUser = true;
     extraGroups = [
@@ -69,18 +69,15 @@
     ];
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    firefox
-    git
+    jdk8
 
     jetbrains.idea-ultimate
     jetbrains.goland
     jetbrains.pycharm-professional
     jetbrains.webstorm
+
+    mongodb-compass
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -100,12 +97,16 @@
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "google-chrome"
     "memtest86-efi"
+
+    "zoom"
     "slack"
 
     "idea-ultimate"
     "goland"
     "pycharm-professional"
     "webstorm"
+
+    "mongodb-compass"
   ];
 
   services.udev.extraRules = ''
