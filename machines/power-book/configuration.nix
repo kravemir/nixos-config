@@ -9,6 +9,7 @@
     ../../profiles/cli.nix
     ../../profiles/gui.nix
     ../../profiles/localization.nix
+    ../../profiles/printing.nix
 
     ../../profiles/hardware.nix
     ../../profiles/laptop.nix
@@ -52,7 +53,7 @@
       CPU_SCALING_GOVERNOR_ON_BAT = "ondemand";
       CPU_BOOST_ON_AC             = 0;
       CPU_BOOST_ON_BAT            = 0;
-      PLATFORM_PROFILE_ON_AC      = "quiet";
+      PLATFORM_PROFILE_ON_AC      = "balanced";
       PLATFORM_PROFILE_ON_BAT     = "quiet";
 
       USB_DENYLIST = "0bda:8153";
@@ -75,9 +76,6 @@
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e";
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
   users.users.miroslav = {
     isNormalUser = true;
     extraGroups = [
@@ -94,6 +92,8 @@
     jetbrains.goland
     jetbrains.pycharm-professional
     jetbrains.webstorm
+
+    awscli lens kubectl
 
     mongodb-compass
   ];
