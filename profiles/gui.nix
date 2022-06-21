@@ -48,6 +48,8 @@
     gnomeExtensions.dash-to-dock
     gnomeExtensions.sound-output-device-chooser
     gnomeExtensions.system-monitor
+    gnomeExtensions.gesture-improvements
+    gnomeExtensions.x11-gestures
   ];
 }
 

@@ -4,10 +4,8 @@ with lib;
 
 let
   cfg = config.services.openvpn3;
-  
-  openvpn3 = with pkgs; callPackage ../../pkgs/openvpn3.nix {
-    inherit (python3Packages) docutils jinja2;
-  };
+
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 in
 {
   ###### interface
@@ -20,7 +18,7 @@ in
 
   config = mkIf cfg.client.enable {
     services.dbus.packages = [
-      openvpn3
+      unstable.openvpn3
     ];
 
     users.users.openvpn = {
@@ -31,7 +29,7 @@ in
     users.groups.openvpn = {};
 
     environment.systemPackages = [
-      openvpn3
+      unstable.openvpn3
     ];
   };
 
