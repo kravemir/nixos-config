@@ -7,6 +7,7 @@
     ../../modules/networking/openvpn3.nix
 
     ../../profiles/cli.nix
+    ../../profiles/development.nix
     ../../profiles/gui.nix
     ../../profiles/localization.nix
     ../../profiles/printing.nix

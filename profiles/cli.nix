@@ -71,6 +71,9 @@ in
 
     # resource monitoring tools
     nethogs iftop
+
+    # virtual env
+    direnv
   ];
 
   programs.bash = {
