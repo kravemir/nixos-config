@@ -4,13 +4,12 @@
   imports = [
     ./hardware-configuration.nix
 
-    ../../modules/networking/openvpn3.nix
-
     ../../profiles/cli.nix
     ../../profiles/development.nix
     ../../profiles/gui.nix
     ../../profiles/localization.nix
     ../../profiles/printing.nix
+    ../../profiles/workstation.nix
 
     ../../profiles/hardware.nix
     ../../profiles/laptop.nix
@@ -33,12 +32,6 @@
   services.xserver.displayManager.gdm.wayland = false;
 
   nix.extraOptions = "keep-outputs = true";
-
-  services.openvpn3.client.enable = true;
-
-  virtualisation.docker.enable = true;
-
-  services.tailscale.enable = true;
 
   # disable for TLP, auto-enabled by gnome-core by default
   services.power-profiles-daemon.enable = false;
@@ -77,18 +70,7 @@
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e";
 
-  users.users.miroslav = {
-    isNormalUser = true;
-    extraGroups = [
-      "docker"
-      "networkmanager"
-      "wheel"
-    ];
-  };
-
   environment.systemPackages = with pkgs; [
-    jdk8
-
     jetbrains.idea-ultimate
     jetbrains.goland
     jetbrains.pycharm-professional
@@ -120,6 +102,7 @@
     "zoom"
     "slack"
 
+    "android-studio-stable"
     "idea-ultimate"
     "goland"
     "pycharm-professional"
