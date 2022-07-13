@@ -81,6 +81,8 @@
     mongodb-compass
   ];
 
+  programs.steam.enable = true;
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -109,6 +111,11 @@
     "webstorm"
 
     "mongodb-compass"
+
+    "Oracle_VM_VirtualBox_Extension_Pack"
+
+    "steam"
+    "steam-original"
   ];
 
   system.stateVersion = "21.11";

@@ -30,6 +30,9 @@
     # graphical tools
     digikam gimp inkscape
 
+    # multimedia
+    vlc
+
     # office
     hunspell
     hunspellDicts.cs-cz

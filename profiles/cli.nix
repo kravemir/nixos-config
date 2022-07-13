@@ -70,10 +70,15 @@ in
     bind
 
     # resource monitoring tools
-    nethogs iftop
+    gotop
+    iftop
+    nethogs
 
     # virtual env
     direnv
+
+    # other
+    freshfetch
   ];
 
   programs.bash = {
