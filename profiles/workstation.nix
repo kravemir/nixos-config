@@ -26,6 +26,8 @@
 
   environment.systemPackages = with pkgs; [
     clipgrab
+
+    home-manager
   ];
 }
 
