@@ -19,12 +19,16 @@ Create `/etc/nixos/configuration.nix` with following contents:
 Configure ACME:
 
 ```bash
-# root-login to proxy container
-nixos-container root-login proxy
+cd /storage/ssddata/proxy/acme/
 
-# generate certificate
-cd /var/lib/acme/
-lego --accept-tos --path . -d cubie.home.kravemir.org --email kravec.miroslav@gmail.com --key-type ec256 --dns manual run
+# use shell with lego package
+nix-shell -p lego
+
+  # generate certificate and exit shell
+  lego --accept-tos --path . -d cubie.home.kravemir.org --email kravec.miroslav@gmail.com --key-type ec256 --dns manual run
+
+  # exit nix-shell
+  exit
 
 # create fullchain.crt
 cat certificates/cubie.home.kravemir.org.crt certificates/cubie.home.kravemir.org.issuer.crt   > certificates/cubie.home.kravemir.org.fullchain.crt
@@ -33,6 +37,9 @@ cat certificates/cubie.home.kravemir.org.crt certificates/cubie.home.kravemir.or
 chmod -R 640 certificates/cubie.home.kravemir.org.*
 chmod 750 certificates/
 chown -R acme:acme .
+
+# restart proxy server
+machinectl reboot proxy
 ```
 
 Configure Mikrotik router to use DNS resolver when machine is online:
