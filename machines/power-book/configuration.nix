@@ -25,7 +25,7 @@
     "enc-laptop".device = "/dev/disk/by-uuid/5dbb9f4d-7622-4383-8084-ad45ded32d1d";
   };
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_5_18;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_5_19;
 
   networking.hostName = "miroslav-power-book";
 
@@ -115,6 +115,7 @@
   # services.xserver.xkbOptions = "eurosign:e";
 
   environment.systemPackages = with pkgs; [
+    jetbrains.datagrip
     jetbrains.idea-ultimate
     jetbrains.goland
     jetbrains.pycharm-professional
@@ -149,6 +150,7 @@
     "slack"
 
     "android-studio-stable"
+    "datagrip"
     "idea-ultimate"
     "goland"
     "pycharm-professional"

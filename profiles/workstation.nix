@@ -3,7 +3,11 @@
 {
   virtualisation.docker.enable = true;
 
+  services.ddccontrol.enable = true;
   services.tailscale.enable = true;
+
+  # needed when routing all traffic through a VPN
+  networking.firewall.checkReversePath = "loose";
 
   services.syncthing = {
     enable = true;
@@ -28,6 +32,11 @@
     clipgrab
 
     home-manager
+
+    ddccontrol
+    ddccontrol-db
+
+    wireguard-tools
   ];
 }
 

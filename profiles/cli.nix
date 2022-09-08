@@ -78,6 +78,7 @@ in
     direnv
 
     # other
+    unzip
     freshfetch
   ];
 
