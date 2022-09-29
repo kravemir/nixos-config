@@ -1,8 +1,6 @@
 { config, pkgs, lib,  ... }:
 
 {
-  virtualisation.docker.enable = true;
-
   services.ddccontrol.enable = true;
   services.tailscale.enable = true;
 
@@ -16,6 +14,8 @@
     group = "users";
 
     dataDir = "/home/miroslav";
+
+    openDefaultPorts = true;
   };
 
   users.users.miroslav = {
