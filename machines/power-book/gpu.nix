@@ -1,41 +1,56 @@
 { config, pkgs, lib,  ... }:
 
 {
+  # use default location, instead of "/dev/null"
+  services.xserver.logFile = null;
+
+  services.xserver.exportConfiguration = true;
+
   # make dedicated GPU primary to prevent 1 FPS bug
   # https://gitlab.freedesktop.org/xorg/xserver/-/issues/1028
-  services.xserver.config = ''
+  services.xserver.config = lib.mkForce ''
       Section "ServerLayout"
           Identifier "layout"
-          Screen 0 "amdgpu"
+          Screen 0 "dedicated"
           Inactive "apu"
       EndSection
 
-      Section "Device"
-          Identifier  "amdgpu"
-          Driver      "modesetting"
-          BusID       "PCI:3:0:0"
+      Section "OutputClass"
+          Identifier  "AMD"
+          Driver      "amdgpu"
+
           Option      "DRI" "3"
           Option      "PrimaryGPU" "yes"
           Option      "TearFree" "true"
           Option      "VariableRefresh" "true"
       EndSection
 
+      Section "Device"
+          Identifier  "dedicated"
+          Driver      "amdgpu"
+          BusID       "PCI:3:0:0"
+
+          Option      "PrimaryGPU" "yes"
+      EndSection
+
       Section "Screen"
-          Identifier "amdgpu"
-          Device "amdgpu"
+          Identifier  "dedicated"
+          Device      "dedicated"
+
+          DefaultDepth    24
       EndSection
 
       Section "Device"
           Identifier  "apu"
-          Driver      "modesetting"
+          Driver      "amdgpu"
           BusID       "PCI:7:0:0"
       EndSection
 
       Section "Screen"
           Identifier  "apu"
           Device      "apu"
-          Option      "TearFree" "true"
-          Option      "VariableRefresh" "true"
+
+          DefaultDepth    24
       EndSection
   '';
 
