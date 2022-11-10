@@ -69,6 +69,62 @@
       EndSection
   '';
 
+  specialisation."modesetting-on-integrated" = {
+    configuration = {
+      services.xserver.videoDrivers = [
+        "modesetting"
+      ];
+
+      # make dedicated GPU primary to prevent 1 FPS bug on USB-C output
+      # https://gitlab.freedesktop.org/xorg/xserver/-/issues/1028
+      services.xserver.config = lib.mkForce ''
+          Section "ServerLayout"
+              Identifier "layout"
+              Screen 0 "apu"
+              Inactive "dedicated"
+          EndSection
+
+          Section "OutputClass"
+              Identifier  "AMD"
+              Driver      "modesetting"
+
+              Option      "DRI" "3"
+              Option      "PrimaryGPU" "yes"
+              Option      "TearFree" "true"
+              Option      "VariableRefresh" "true"
+          EndSection
+
+          Section "Device"
+              Identifier  "dedicated"
+              Driver      "modesetting"
+              BusID       "PCI:3:0:0"
+          EndSection
+
+          Section "Screen"
+              Identifier  "dedicated"
+              Device      "dedicated"
+
+              DefaultDepth    24
+          EndSection
+
+          Section "Device"
+              Identifier  "apu"
+              Driver      "modesetting"
+              BusID       "PCI:7:0:0"
+
+              Option      "PrimaryGPU" "yes"
+          EndSection
+
+          Section "Screen"
+              Identifier  "apu"
+              Device      "apu"
+
+              DefaultDepth    24
+          EndSection
+      '';
+    };
+  };
+
   specialisation."amdgpu-on-dedicated" = {
     configuration = {
       services.xserver.videoDrivers = [

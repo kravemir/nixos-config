@@ -4,7 +4,6 @@
   services.xserver.enable = true;
 
   services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.desktopManager.xfce.enable = true;
   services.xserver.desktopManager.xterm.enable = false;
 
   services.xserver.displayManager.gdm.enable = true;

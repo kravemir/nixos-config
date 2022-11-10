@@ -80,6 +80,10 @@
     awscli lens kubectl
 
     mongodb-compass
+
+    ffmpeg
+    mediainfo
+    (pkgs.callPackage ../../pkgs/cut_video.nix {})
   ];
 
   programs.steam.enable = true;
