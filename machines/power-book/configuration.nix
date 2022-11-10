@@ -26,7 +26,7 @@
     "enc-laptop".device = "/dev/disk/by-uuid/5dbb9f4d-7622-4383-8084-ad45ded32d1d";
   };
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_5_19;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_0;
 
   networking.hostName = "miroslav-power-book";
 
