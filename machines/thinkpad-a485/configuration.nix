@@ -4,7 +4,15 @@
   imports = [
     ./hardware-configuration.nix
 
+    ../../profiles/audio.nix
     ../../profiles/cli.nix
+    ../../profiles/gui.nix
+    ../../profiles/localization.nix
+    ../../profiles/printing.nix
+    ../../profiles/workstation.nix
+
+    ../../profiles/hardware.nix
+    ../../profiles/laptop.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -15,24 +23,12 @@
     "/crypto_keyfile.bin" = null;
   };
 
+  boot.initrd.availableKernelModules = [
+    "aesni_intel"
+    "cryptd"
+  ];
+
   networking.hostName = "miroslav-thinkpad";
-  networking.networkmanager.enable = true;
-
-  time.timeZone = "Europe/Bratislava";
-
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "sk_SK.UTF-8";
-    LC_IDENTIFICATION = "sk_SK.UTF-8";
-    LC_MEASUREMENT = "sk_SK.UTF-8";
-    LC_MONETARY = "sk_SK.UTF-8";
-    LC_NAME = "sk_SK.UTF-8";
-    LC_NUMERIC = "sk_SK.UTF-8";
-    LC_PAPER = "sk_SK.UTF-8";
-    LC_TELEPHONE = "sk_SK.UTF-8";
-    LC_TIME = "sk_SK.UTF-8";
-  };
 
   services.xserver.enable = true;
 
@@ -42,26 +38,6 @@
   services.xserver = {
     layout = "us";
     xkbVariant = "";
-  };
-
-  services.printing.enable = true;
-
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-
-    alsa.enable = true;
-    alsa.support32Bit = true;
-
-    pulse.enable = true;
-  };
-
-  users.users.miroslav = {
-    isNormalUser = true;
-    description = "Miroslav Kravec";
-    extraGroups = [ "networkmanager" "wheel" ];
   };
 
   nixpkgs.config.allowUnfree = true;

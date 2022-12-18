@@ -21,6 +21,8 @@
   users.users.miroslav = {
     isNormalUser = true;
 
+    description = "Miroslav Kravec";
+
     extraGroups = [
       "docker"
       "networkmanager"
