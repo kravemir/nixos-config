@@ -12,13 +12,13 @@ let
 in
 buildGo117Module rec {
   pname = "archivekeep";
-  version = "3ecda63560fb58869e89f681cd4ac4cba53611cb";
+  version = "4d76f7adc58143d3d05e4116e8955ee070107fc3";
 
   src = fetchFromGitHub {
     owner = "archivekeep";
     repo = "archivekeep";
-    rev = "3ecda63560fb58869e89f681cd4ac4cba53611cb";
-    sha256 = "1rysq342kjxq763my7m9fl5a9qm67s9d17wq4bdkxa4qnh6q7gh8";
+    rev = "4d76f7adc58143d3d05e4116e8955ee070107fc3";
+    sha256 = "S29zJ4YJ7mmcUJJN/CXZrT5xmqveng6OgyEXKfYOlro=";
 
     leaveDotGit = true;
     postFetch = ''
@@ -35,7 +35,7 @@ buildGo117Module rec {
 
 
   proxyVendor   = true;
-  vendorSha256  = "01y7cgx4swrc41wyal2kack1iigsl2i4hv1mr3vc4nkrmns23p79";
+  vendorSha256  = "FooWfkkaTIOJ4Sge8VDov7x4uPsU+VRdYaoDx0V7U6E=";
 
   doCheck = false;
 
