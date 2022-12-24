@@ -79,6 +79,8 @@
 
       networking.firewall.allowedTCPPorts = [ 53 ];
       networking.firewall.allowedUDPPorts = [ 53 ];
+
+      system.stateVersion = "22.05";
     };
 
     bindMounts = {

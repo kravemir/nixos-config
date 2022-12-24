@@ -96,6 +96,8 @@
       networking.firewall.allowedTCPPorts = [
         8085
       ];
+
+      system.stateVersion = "22.05";
     };
 
     bindMounts = {

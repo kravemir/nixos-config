@@ -75,6 +75,8 @@
       environment.systemPackages = [
         archivekeep
       ];
+
+      system.stateVersion = "22.05";
     };
 
     bindMounts = {

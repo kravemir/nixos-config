@@ -44,6 +44,8 @@
       networking.firewall.allowedTCPPorts = [
         5049
       ];
+
+      system.stateVersion = "22.05";
     };
 
     bindMounts = {

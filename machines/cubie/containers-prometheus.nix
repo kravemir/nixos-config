@@ -31,6 +31,8 @@
       networking.firewall.allowedTCPPorts = [
         5043
       ];
+
+      system.stateVersion = "22.05";
     };
 
     privateNetwork = true;

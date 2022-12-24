@@ -139,6 +139,8 @@
         80
         443
       ];
+
+      system.stateVersion = "22.05";
     };
 
     privateNetwork = true;

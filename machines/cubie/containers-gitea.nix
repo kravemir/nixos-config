@@ -48,6 +48,8 @@
         22
         5080
       ];
+
+      system.stateVersion = "22.05";
     };
 
     bindMounts = {
