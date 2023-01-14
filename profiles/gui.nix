@@ -1,5 +1,10 @@
 { config, pkgs, ... }:
 
+let
+  inkscape-old-pkgs = import (builtins.fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/bf972dc380f36a3bf83db052380e55f0eaa7dcb6.tar.gz";
+  }) {};
+in
 {
   services.xserver.enable = true;
 
@@ -27,8 +32,15 @@
     # editors
     apostrophe
 
+    # fonts
+    gyre-fonts
+    libertine
+
     # graphical tools
-    digikam gimp inkscape
+    darktable
+    digikam
+    gimp
+    inkscape-old-pkgs.inkscape
 
     # multimedia
     vlc

@@ -4,8 +4,6 @@
 let
   python-3_9-fhs-env = pkgs.callPackage ./python-3.9-fhs-env.nix {};
   pycharm-professional-in-fhs-env = pkgs.callPackage ./pycharm-professional-in-fhs-env.nix {};
-
-  unstable = import <nixos-unstable> {};
 in
 {
   virtualisation.docker.enable = true;
@@ -22,7 +20,7 @@ in
     pycharm-professional-in-fhs-env
 
     gcc
-    unstable.go_1_19
+    go_1_19
     jdk8
 
     android-studio

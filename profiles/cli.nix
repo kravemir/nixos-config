@@ -80,6 +80,7 @@ in
     # other
     unzip
     freshfetch
+    (callPackage ../pkgs/cut_video.nix {})
   ];
 
   programs.bash = {

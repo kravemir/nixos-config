@@ -6,6 +6,7 @@
 
     ../../profiles/audio.nix
     ../../profiles/cli.nix
+    ../../profiles/development
     ../../profiles/gui.nix
     ../../profiles/localization.nix
     ../../profiles/printing.nix
@@ -45,6 +46,14 @@
   environment.systemPackages = with pkgs; [
     google-chrome
     signal-desktop
+
+    gcc
+    gnumake
+    go
+
+    jetbrains.idea-ultimate
+    jetbrains.goland
+    jetbrains.webstorm
   ];
 
   system.stateVersion = "22.11";
