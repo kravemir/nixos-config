@@ -1,7 +1,7 @@
 { lib,
   pkgs,
   stdenv,
-  buildGo117Module,
+  buildGo119Module,
   fetchFromGitHub,
   bash,
   installShellFiles
@@ -10,7 +10,7 @@
 let
   archivekeep-webui = pkgs.callPackage ./webui.nix {};
 in
-buildGo117Module rec {
+buildGo119Module rec {
   pname = "archivekeep";
   version = "4d76f7adc58143d3d05e4116e8955ee070107fc3";
 

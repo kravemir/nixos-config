@@ -12,14 +12,18 @@
     config = { lib, config, pkgs, ... }: {
       services.grafana = {
         enable = true;
-        port = 5049;
-        addr = "";
 
-        rootUrl = "http://cubie.home.kravemir.org/grafana/";
+        settings.server = {
+          port = 5049;
+          addr = "";
+
+          rootUrl = "http://cubie.home.kravemir.org/grafana/";
+        };
 
         provision = {
           enable = true;
-          datasources = [
+
+          datasources.settings.datasources = [
             {
               name = "Prometheus";
 
@@ -29,15 +33,16 @@
               url = "http://192.168.150.3:5043";
             }
           ];
-          dashboards = [
+
+          dashboards.settings.providers = [
             {
               options.path = "/shared/grafana/dashboards";
             }
           ];
         };
 
-        extraOptions = {
-          USERS_DEFAULT_THEME = "light";
+        settings.users = {
+          default_theme = "light";
         };
       };
 

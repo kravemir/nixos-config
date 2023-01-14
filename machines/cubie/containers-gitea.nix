@@ -26,7 +26,8 @@
         rootUrl = "http://cubie.home.kravemir.org/gitea";
 
         httpPort = 5080;
-        ssh.clonePort = 5022;
+
+        settings.server.SSH_PORT = 5022;
 
         database.user = "git";
       };

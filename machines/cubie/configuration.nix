@@ -11,11 +11,13 @@
     ./containers-archivekeep.nix
     ./containers-gitea.nix
     ./containers-grafana.nix
-    ./containers-ldap.nix
     ./containers-prometheus.nix
     ./containers-proxy.nix
     ./containers-seafile.nix
     ./containers-unbound.nix
+
+    # unfinished
+    # ./containers-ldap.nix
 
     ./firewall.nix
 
@@ -33,8 +35,8 @@
   # Unlock LUKS device at boot
   boot.initrd.luks.devices = {
     "enc-system".device = "/dev/disk/by-uuid/ac2e408f-432e-4623-a4ff-4bea469d0a87";
-    "enc-hdddata".device = "/dev/disk/by-uuid/7d0120f7-6f50-428e-9aa5-71a5fc44ff7c";
-    "enc-ssddata".device = "/dev/disk/by-uuid/8ca24d0f-6140-49f0-b8d7-e8810f0b60b6";
+    "enc-hdddata".device = "/dev/disk/by-id/md-uuid-1cc099f4:94a3981d:b89715c3:7a17952f";
+    "enc-ssddata".device = "/dev/disk/by-id/md-uuid-b536ed2e:1762be89:58616e54:d1dac3ba";
 
     "enc-system" = {
       allowDiscards = true;
