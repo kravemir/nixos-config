@@ -1,6 +1,11 @@
 { config, pkgs, lib,  ... }:
 
 {
+  # enable boot splash, see https://github.com/NixOS/nixpkgs/issues/26722
+  boot.initrd.systemd.enable = true;
+  boot.plymouth.enable = true;
+  boot.kernelParams = [ "quiet" ];
+
   services.ddccontrol.enable = true;
   services.tailscale.enable = true;
 

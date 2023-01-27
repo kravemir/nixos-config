@@ -61,7 +61,6 @@ in
     gnome.gnome-tweaks
     gnomeExtensions.caffeine
     gnomeExtensions.dash-to-dock
-    gnomeExtensions.sound-output-device-chooser
     gnomeExtensions.system-monitor
     gnomeExtensions.x11-gestures
   ];

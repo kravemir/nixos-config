@@ -122,6 +122,7 @@
 
     "steam"
     "steam-original"
+    "steam-run"
   ];
 
   system.stateVersion = "21.11";
