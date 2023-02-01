@@ -32,8 +32,8 @@
         virtualHosts."cubie.home.kravemir.org" = {
           forceSSL = true;
 
-          sslCertificateKey = "/var/lib/acme/certificates/cubie.home.kravemir.org.key";
-          sslCertificate    = "/var/lib/acme/certificates/cubie.home.kravemir.org.fullchain.crt";
+          sslCertificateKey = "/var/lib/acme/cubie.home.kravemir.org/key.pem";
+          sslCertificate    = "/var/lib/acme/cubie.home.kravemir.org/fullchain.pem";
 
           locations."/archivekeep/" = {
             proxyPass = "http://192.168.164.3:4202/";
@@ -94,19 +94,21 @@
         };
       };
 
-      # TODO: doesn't work well with dnsProvider = "manual"
-      #
-      # security.acme = {
-      #   acceptTerms = true;
-      #   email = "kravec.miroslav@gmail.com";
-      #
-      #   certs."cubie.home.kravemir.org" = {
-      #     domain = "cubie.home.kravemir.org";
-      #     dnsProvider = "manual";
-      #
-      #     credentialsFile = pkgs.writeText "cert-env.txt" "";
-      #   };
-      # };
+      security.acme = {
+        acceptTerms = true;
+
+        defaults.email = "kravec.miroslav@gmail.com";
+
+        certs."cubie.home.kravemir.org" = {
+          domain = "cubie.home.kravemir.org";
+          dnsProvider = "acme-dns";
+
+          credentialsFile = pkgs.writeText "cert-env.txt" ''
+            ACME_DNS_API_BASE=https://auth.acme-dns.io
+            ACME_DNS_STORAGE_PATH=/var/lib/acme/config/credentials.json
+          '';
+        };
+      };
 
       users.users.acme = {
         uid = 2005;

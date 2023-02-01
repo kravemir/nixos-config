@@ -14,10 +14,10 @@
         enable = true;
 
         settings.server = {
-          port = 5049;
-          addr = "";
+          http_port = 5049;
+          http_addr = "";
 
-          rootUrl = "http://cubie.home.kravemir.org/grafana/";
+          root_url = "http://cubie.home.kravemir.org/grafana/";
         };
 
         provision = {

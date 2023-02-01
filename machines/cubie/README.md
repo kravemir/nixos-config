@@ -18,29 +18,37 @@ Create `/etc/nixos/configuration.nix` with following contents:
 
 Configure ACME:
 
-```bash
-cd /storage/ssddata/proxy/acme/
+1. register at acme-dns:
 
-# use shell with lego package
-nix-shell -p lego
+   -  see https://github.com/joohoi/acme-dns#usage,
 
-  # generate certificate and exit shell
-  lego --accept-tos --path . -d cubie.home.kravemir.org --email kravec.miroslav@gmail.com --key-type ec256 --dns manual run
+2. create `/storage/ssddata/proxy/acme/config/credentials.json`:
 
-  # exit nix-shell
-  exit
+   ```json
+   {
+       "cubie.home.kravemir.org": {
+           "allowfrom": [],
+           "fulldomain": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.auth.acme-dns.io",
+           "password": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+           "subdomain": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+           "username": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+       }
+   }
+   ```
 
-# create fullchain.crt
-cat certificates/cubie.home.kravemir.org.crt certificates/cubie.home.kravemir.org.issuer.crt   > certificates/cubie.home.kravemir.org.fullchain.crt
+   **SECURITY** - reduce access permissions for credentials:
 
-# set correct permissions
-chmod -R 640 certificates/cubie.home.kravemir.org.*
-chmod 750 certificates/
-chown -R acme:acme .
+   ```shell
+   chown 2005 /storage/ssddata/proxy/acme/config/credentials.json
+   chmod 700 /storage/ssddata/proxy/acme/config/credentials.json
+   ```
 
-# restart proxy server
-machinectl reboot proxy
-```
+3. restart proxy service:
+
+   ```shell
+   machinectl reboot proxy
+   ```
+
 
 Configure Mikrotik router to use DNS resolver when machine is online:
 
