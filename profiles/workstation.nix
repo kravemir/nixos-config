@@ -35,15 +35,24 @@
     ];
   };
 
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+
   environment.systemPackages = with pkgs; [
+    p7zip
     clipgrab
 
     home-manager
 
+    # displays
     ddccontrol
     ddccontrol-db
 
+    # VPN
     wireguard-tools
+
+    # virtualization
+    gnome.gnome-boxes
   ];
 }
 

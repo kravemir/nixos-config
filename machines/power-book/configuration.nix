@@ -26,7 +26,7 @@
     "enc-laptop".device = "/dev/disk/by-uuid/5dbb9f4d-7622-4383-8084-ad45ded32d1d";
   };
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_0;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_1;
 
   networking.hostName = "miroslav-power-book";
 
@@ -117,8 +117,6 @@
     "webstorm"
 
     "mongodb-compass"
-
-    "Oracle_VM_VirtualBox_Extension_Pack"
 
     "steam"
     "steam-original"
