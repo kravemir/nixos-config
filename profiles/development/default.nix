@@ -25,7 +25,7 @@ in
 
     android-studio
 
-    docker-compose
+    docker-compose_1
 
     gh
 

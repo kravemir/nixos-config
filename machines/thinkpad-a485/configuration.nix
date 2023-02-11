@@ -8,6 +8,7 @@
     ../../profiles/cli.nix
     ../../profiles/development
     ../../profiles/gui.nix
+    ../../profiles/graphical-sway.nix
     ../../profiles/localization.nix
     ../../profiles/printing.nix
     ../../profiles/workstation.nix
@@ -25,8 +26,12 @@
   };
 
   boot.initrd.availableKernelModules = [
+    # modules for AES disk encryption
     "aesni_intel"
     "cryptd"
+
+    # for early KMS
+    "amdgpu"
   ];
 
   networking.hostName = "miroslav-thinkpad";
