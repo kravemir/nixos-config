@@ -17,20 +17,7 @@ set $lock swaylock -f -c 112233
 output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
 
-exec_always dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
-
-
-exec_always pkill swayidle; \
-         swayidle -w \
-        lock '$lock' \
-        timeout 300 '$lock' \
-        timeout 360 'swaymsg "output * dpms off"' \
-        resume 'swaymsg "output * dpms on"' \
-        after-resume 'swaymsg "output * dpms on"' \
-        before-sleep '$lock'
-
-
-exec_always pkill kanshi; exec kanshi
+exec "systemctl --user import-environment {,WAYLAND_}DISPLAY SWAYSOCK; systemctl --user start sway-session.target"
 
 
 input type:keyboard {
@@ -64,7 +51,7 @@ bindsym --to-code {
 
     $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
-    $mod+l exec $lock
+    $mod+l exec loginctl lock-session
 
     $mod+Left focus left
     $mod+Down focus down

@@ -1,0 +1,9 @@
+lock 'swaylock -f -c 112233'
+
+timeout 300 'swaylock -f -c 112233'
+timeout 360 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"'
+
+before-sleep 'swaylock -f -c 112233'
+
+after-resume 'swaymsg "output * dpms on"'
+
