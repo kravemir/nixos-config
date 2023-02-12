@@ -11,6 +11,8 @@ set $term alacritty
 
 set $menu swaymsg exec fuzzel
 
+set $lock swaylock -f -c 112233
+
 
 output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
@@ -20,11 +22,12 @@ exec_always dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY
 
 exec_always pkill swayidle; \
          swayidle -w \
-        lock 'swaylock -f -c 000000' \
-        timeout 300 'swaylock -f -c 000000' \
-        timeout 600 'swaymsg "output * dpms off"' \
+        lock '$lock' \
+        timeout 300 '$lock' \
+        timeout 360 'swaymsg "output * dpms off"' \
         resume 'swaymsg "output * dpms on"' \
-        before-sleep 'swaylock -f -c 000000'
+        after-resume 'swaymsg "output * dpms on"' \
+        before-sleep '$lock'
 
 
 exec_always pkill kanshi; exec kanshi
@@ -61,22 +64,12 @@ bindsym --to-code {
 
     $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
-
-    $mod+$left focus left
-    $mod+$down focus down
-    $mod+$up focus up
-    $mod+$right focus right
+    $mod+l exec $lock
 
     $mod+Left focus left
     $mod+Down focus down
     $mod+Up focus up
     $mod+Right focus right
-
-
-    $mod+Shift+$left move left
-    $mod+Shift+$down move down
-    $mod+Shift+$up move up
-    $mod+Shift+$right move right
 
     $mod+Shift+Left move left
     $mod+Shift+Down move down
@@ -157,15 +150,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-
 bar {
-    position bottom
-
-    status_command exec i3status
-
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
+    swaybar_command waybar
 }

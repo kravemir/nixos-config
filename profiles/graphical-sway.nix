@@ -31,4 +31,5 @@
 
   environment.etc."sway/config".text = (builtins.readFile ../etc/sway/config);
   environment.etc."i3status.conf".text = (builtins.readFile ../etc/i3status.conf);
+  environment.etc."xdg/waybar/config".text = (builtins.readFile ../etc/xdg/waybar/config);
 }
