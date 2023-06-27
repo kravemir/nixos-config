@@ -22,7 +22,7 @@ in
 
     python39
     python39Packages.pip
-    python39Packages.poetry
+    python39Packages.poetry-core
     python39Packages.virtualenv
 
     musl

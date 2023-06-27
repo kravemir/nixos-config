@@ -61,8 +61,8 @@ in
     gnome.gnome-tweaks
     gnomeExtensions.caffeine
     gnomeExtensions.dash-to-dock
+    gnomeExtensions.pop-shell
     gnomeExtensions.system-monitor
-    gnomeExtensions.x11-gestures
   ];
 }
 

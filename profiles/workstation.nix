@@ -4,11 +4,6 @@ let
   archivekeep = pkgs.callPackage ../pkgs/archivekeep {};
 in
 {
-  # enable boot splash, see https://github.com/NixOS/nixpkgs/issues/26722
-  boot.initrd.systemd.enable = true;
-  boot.plymouth.enable = true;
-  boot.kernelParams = [ "quiet" ];
-
   services.ddccontrol.enable = true;
   services.tailscale.enable = true;
 
@@ -64,7 +59,8 @@ in
     thunderbird
 
     # virtualization
-    gnome.gnome-boxes
+    virt-manager
+    virtiofsd
   ];
 
   networking.firewall.allowedTCPPorts = [

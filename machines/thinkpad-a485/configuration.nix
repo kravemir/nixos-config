@@ -8,7 +8,6 @@
     ../../profiles/cli.nix
     ../../profiles/development
     ../../profiles/gui.nix
-    ../../profiles/graphical-sway.nix
     ../../profiles/localization.nix
     ../../profiles/printing.nix
     ../../profiles/workstation.nix

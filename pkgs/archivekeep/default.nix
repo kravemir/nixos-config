@@ -12,30 +12,18 @@ let
 in
 buildGo119Module rec {
   pname = "archivekeep";
-  version = "9ceb4a7bda09225d8aedf3a40f116b7f26791672";
+  version = "v0.1.1";
 
   src = fetchFromGitHub {
     owner = "archivekeep";
     repo = "archivekeep";
-    rev = "9ceb4a7bda09225d8aedf3a40f116b7f26791672";
-    sha256 = "KIV4/VogtPkbPA7MLwJEp2OwS2xj/pjhDJUuvJB5BwU=";
-
-    leaveDotGit = true;
-    postFetch = ''
-      cd "$out"
-
-      git add .
-      git checkout HEAD -- .
-
-      ${bash}/bin/bash ./bin/generate-version.sh
-
-      rm -rf .git
-    '';
+    rev = "v0.1.1";
+    sha256 = "sf2EE8SEAUpce0bj133GEok/fKlU6Yft5DUk+SqLK6o=";
   };
 
 
   proxyVendor   = true;
-  vendorSha256  = "1dMwRgCtjqbqVz/cUYyC5sAeO5sjXbotvLcW2lQbjCI=";
+  vendorSha256  = "sHh2jYRHI9rmYEwUO86R4f4xpJeIp5+qagaoKxLceJk=";
 
   doCheck = false;
 
@@ -43,7 +31,9 @@ buildGo119Module rec {
     cp -r "${archivekeep-webui}/dist/spa/" -T server/web/spa/embedded-assets
   '';
 
-  tags = [ "embed_assets" "embed_version" ];
+  ldflags = [
+    "-X github.com/archivekeep/archivekeep/internal/buildinfo.version=${version}"
+  ];
 
   subPackages = [
     "."
