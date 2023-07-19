@@ -78,6 +78,7 @@ in
     direnv
 
     # other
+    lftp
     unzip
     freshfetch
     (callPackage ../pkgs/cut_video.nix {})

@@ -12,18 +12,18 @@ let
 in
 buildGo119Module rec {
   pname = "archivekeep";
-  version = "v0.1.1";
+  version = "0.1.3";
 
   src = fetchFromGitHub {
     owner = "archivekeep";
     repo = "archivekeep";
-    rev = "v0.1.1";
-    sha256 = "sf2EE8SEAUpce0bj133GEok/fKlU6Yft5DUk+SqLK6o=";
+    rev = "v${version}";
+    sha256 = "bAFChn8+uLCx1X73ofzn3wMDoRhRW5nRc+Bnirjf2Ns=";
   };
 
 
   proxyVendor   = true;
-  vendorSha256  = "sHh2jYRHI9rmYEwUO86R4f4xpJeIp5+qagaoKxLceJk=";
+  vendorSha256  = "K6zFCYo+tM/rJ9QOFiE/dDCkr6BmAc/F7iGWWGfbb9w=";
 
   doCheck = false;
 
