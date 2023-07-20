@@ -31,6 +31,8 @@ buildGo119Module rec {
     cp -r "${archivekeep-webui}/dist/spa/" -T server/web/spa/embedded-assets
   '';
 
+  tags = [ "embed_assets" ];
+
   ldflags = [
     "-X github.com/archivekeep/archivekeep/internal/buildinfo.version=${version}"
   ];

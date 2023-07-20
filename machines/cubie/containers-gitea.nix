@@ -23,11 +23,11 @@
         enable = true;
         user = "git";
 
-        rootUrl = "http://cubie.home.kravemir.org/gitea";
-
-        httpPort = 5080;
-
-        settings.server.SSH_PORT = 5022;
+        settings.server = {
+          ROOT_URL = "http://cubie.home.kravemir.org/gitea";
+          HTTP_PORT = 5080;
+          SSH_PORT = 5022;
+        };
 
         database.user = "git";
       };

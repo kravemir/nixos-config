@@ -62,9 +62,6 @@
     "usb_storage"
   ];
 
-  # Do not use huge fonts for boot terminal
-  hardware.video.hidpi.enable = false;
-
 
   powerManagement.powerUpCommands = with pkgs;''
     ${bash}/bin/bash -c '${hdparm}/bin/hdparm -B 254 -S 120 $(${utillinux}/bin/lsblk -dnp -o name,rota | ${gnugrep}/bin/grep ".*\\s1"| ${coreutils}/bin/cut -d" " -f1)'
@@ -99,8 +96,11 @@
 
   services.openssh = {
     enable = true;
-    passwordAuthentication = false;
-    permitRootLogin = "no";
+
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+    };
   };
 
 
