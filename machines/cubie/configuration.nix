@@ -104,6 +104,10 @@
   };
 
 
+  # TODO: move under container
+  services.iperf3.enable = true;
+
+
   # prometheus system monitoring exporter
   services.prometheus.exporters.node = {
     enable = true;

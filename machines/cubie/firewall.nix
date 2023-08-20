@@ -10,6 +10,9 @@
       # for unbound container
       53
 
+      # for iperf3
+      5201
+
       # WARNING: does not filter out forwarded ports !!
     ];
 
