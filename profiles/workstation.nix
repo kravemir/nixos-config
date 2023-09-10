@@ -61,6 +61,13 @@ in
     # virtualization
     virt-manager
     virtiofsd
+
+    # networking
+    iperf
+    wirelesstools
+
+    # util
+    (pkgs.callPackage ../pkgs/usb_reset.nix {})
   ];
 
   networking.firewall.allowedTCPPorts = [
