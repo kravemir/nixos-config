@@ -56,6 +56,7 @@ in
     systemd.sockets = {
       tangd = {
         description = "Tang server";
+        wantedBy = [ "sockets.target" ];
         socketConfig = {
           ListenStream = cfg.port;
           Accept = "yes";
