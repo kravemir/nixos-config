@@ -25,6 +25,7 @@ in
     firefox google-chrome
 
     # communication tools
+    element-desktop
     signal-desktop
     slack
     zoom-us
@@ -38,6 +39,7 @@ in
 
     # graphical tools
     darktable
+    drawio
     digikam
     gimp
     inkscape-old-pkgs.inkscape
@@ -66,6 +68,7 @@ in
 
     # other tools
     filezilla
+    foliate
 
     # gnome extensions
     gnome.gnome-power-manager
