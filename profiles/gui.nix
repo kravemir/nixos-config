@@ -28,7 +28,6 @@ in
     element-desktop
     signal-desktop
     slack
-    zoom-us
 
     # editors
     apostrophe

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -23,6 +23,11 @@
     "enc-system".device = "/dev/disk/by-uuid/27de2117-d606-4d91-87e2-462369ca244a";
   };
 
+  services.udev.extraRules = ''
+    SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d4", SYMLINK+="ttyZBDongleE", OWNER="9001", GROUP="9001", TAG+="systemd"
+    SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="zwave", OWNER="9001", GROUP="9001", TAG+="systemd"
+  '';
+
   boot.initrd.availableKernelModules = [
     # modules for AES disk encryption
     "aesni_intel"
@@ -44,10 +49,25 @@
     xkbVariant = "";
   };
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "google-chrome"
+    "obsidian"
+    "slack"
+
+    "android-studio-stable"
+    "goland"
+    "idea-ultimate"
+    "pycharm-professional"
+    "webstorm"
+  ];
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-25.9.0"
+  ];
 
   environment.systemPackages = with pkgs; [
     google-chrome
+    obsidian
     signal-desktop
 
     gcc

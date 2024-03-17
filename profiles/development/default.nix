@@ -6,6 +6,8 @@ let
   pycharm-professional-in-fhs-env = pkgs.callPackage ./pycharm-professional-in-fhs-env.nix {};
 in
 {
+  programs.direnv.enable = true;
+
   virtualisation.docker.enable = true;
 
   environment.variables = {

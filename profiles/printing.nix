@@ -6,6 +6,8 @@
     epson-escpr
   ];
 
+  services.printing.browsing = true;
+
   # for WiFi printers
   services.avahi.enable = true;
   services.avahi.openFirewall = true;
