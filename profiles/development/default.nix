@@ -22,7 +22,7 @@ in
     pycharm-professional-in-fhs-env
 
     gcc
-    go_1_19
+    go
     jdk8
 
     android-studio

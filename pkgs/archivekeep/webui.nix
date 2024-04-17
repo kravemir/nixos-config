@@ -1,9 +1,12 @@
 { mkYarnPackage
 , fetchFromGitHub
 , fetchYarnDeps
+, pkgs
 }:
 mkYarnPackage rec {
   name = "archivekeep-webui";
+
+  nodejs = pkgs.nodejs_18;
 
   src = fetchFromGitHub {
     owner = "archivekeep";
