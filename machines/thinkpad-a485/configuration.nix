@@ -77,6 +77,10 @@
     jetbrains.idea-ultimate
     jetbrains.goland
     jetbrains.webstorm
+
+    exiftool
+    fastfetch
+    foliate
   ];
 
   # This value determines the NixOS release from which the default
