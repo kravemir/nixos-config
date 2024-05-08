@@ -56,9 +56,22 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
+  programs.bash.shellAliases = {
+    k = "kubectl";
+  };
+
+  environment.systemPackages = with pkgs; [
+    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
+
+    kubectl
+
+    zoom-us
+  ];
+
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "google-chrome"
     "slack"
+    "zoom"
 
     "android-studio-stable"
     "goland"

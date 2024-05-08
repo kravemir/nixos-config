@@ -14,18 +14,28 @@ in
     JAVA_TOOLCHAIN_NIX_JDK8   = "${pkgs.jdk8}";
     JAVA_TOOLCHAIN_NIX_JDK11  = "${pkgs.jdk11}";
     JAVA_TOOLCHAIN_NIX_JDK17  = "${pkgs.jdk17}";
+
+    OPEN_JDK_17 = "${pkgs.openjdk17}/lib/openjdk";
+    OPEN_JDK_21 = "${pkgs.openjdk21}/lib/openjdk";
+    TEMURIN_JDK_17 = "${pkgs.temurin-bin-17}";
+    TEMURIN_JDK_21 = "${pkgs.temurin-bin-21}";
+    GRAALVM_JDK = "${pkgs.graalvm-ce}";
   };
 
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; with jetbrains; [
     python-3_9-fhs-env
-    pycharm-professional-in-fhs-env
+
+    # JetBrains IDE(s)
+    android-studio
+    goland
+    idea-ultimate
+    pycharm-professional
+    webstorm
 
     gcc
     go
     jdk8
-
-    android-studio
 
     docker-compose_1
 

@@ -10,9 +10,9 @@
   services.displayManager.sddm.wayland.compositor = "kwin";
 
   services.xserver.desktopManager.xterm.enable = false;
-  services.xserver.desktopManager.plasma5.enable = true;
 
-  # TODO - once swithed to plasma6: services.desktopManager.plasma6.notoPackage = pkgs.noto-fonts-lgc-plus;
+  services.desktopManager.plasma6.enable = true;
+  services.desktopManager.plasma6.notoPackage = pkgs.noto-fonts-lgc-plus;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 }
