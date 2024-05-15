@@ -1,10 +1,5 @@
 { config, pkgs, lib, ... }:
 
-
-let
-  python-3_9-fhs-env = pkgs.callPackage ./python-3.9-fhs-env.nix {};
-  pycharm-professional-in-fhs-env = pkgs.callPackage ./pycharm-professional-in-fhs-env.nix {};
-in
 {
   programs.direnv.enable = true;
 
@@ -24,7 +19,6 @@ in
 
 
   environment.systemPackages = with pkgs; with jetbrains; [
-    python-3_9-fhs-env
 
     # JetBrains IDE(s)
     android-studio
@@ -37,7 +31,7 @@ in
     go
     jdk8
 
-    docker-compose_1
+    docker-compose
 
     gh
 
