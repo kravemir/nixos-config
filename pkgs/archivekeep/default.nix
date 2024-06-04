@@ -1,7 +1,7 @@
 { lib,
   pkgs,
   stdenv,
-  buildGo119Module,
+  buildGoModule,
   fetchFromGitHub,
   bash,
   installShellFiles
@@ -10,7 +10,7 @@
 let
   archivekeep-webui = pkgs.callPackage ./webui.nix {};
 in
-buildGo119Module rec {
+buildGoModule rec {
   pname = "archivekeep";
   version = "0.1.3";
 
@@ -23,7 +23,7 @@ buildGo119Module rec {
 
 
   proxyVendor   = true;
-  vendorSha256  = "K6zFCYo+tM/rJ9QOFiE/dDCkr6BmAc/F7iGWWGfbb9w=";
+  vendorHash = "sha256-wJA/HEkGSkwNE2ZfqKT4+2VDlnZg/aeNfbvt0LZ74n8=";
 
   doCheck = false;
 
