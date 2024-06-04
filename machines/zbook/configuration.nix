@@ -74,6 +74,7 @@
     "zoom"
 
     "android-studio-stable"
+    "datagrip"
     "goland"
     "idea-ultimate"
     "pycharm-professional"

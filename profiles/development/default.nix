@@ -22,6 +22,7 @@
 
     # JetBrains IDE(s)
     android-studio
+    datagrip
     goland
     idea-ultimate
     pycharm-professional
