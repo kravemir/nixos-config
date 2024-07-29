@@ -174,8 +174,8 @@
     extraVeths.proxyToArchi.hostBridge = "br-proxy-archi";
     extraVeths.proxyToArchi.localAddress = "192.168.164.2/24";
 
-    extraVeths.proxyToGitea.hostBridge = "br-proxy-gitea";
-    extraVeths.proxyToGitea.localAddress = "192.168.161.2/24";
+#    extraVeths.proxyToGitea.hostBridge = "br-proxy-gitea";
+#    extraVeths.proxyToGitea.localAddress = "192.168.161.2/24";
 
     extraVeths.proxyToGrafa.hostBridge = "br-proxy-grafa";
     extraVeths.proxyToGrafa.localAddress = "192.168.162.2/24";
@@ -189,18 +189,18 @@
     extraVeths.archiToProxy.localAddress = "192.168.164.3/24";
   };
 
-  containers.gitea = {
-    extraVeths.giteaToProxy.hostBridge = "br-proxy-gitea";
-    extraVeths.giteaToProxy.localAddress = "192.168.161.3/24";
-  };
+#  containers.gitea = {
+#    extraVeths.giteaToProxy.hostBridge = "br-proxy-gitea";
+#    extraVeths.giteaToProxy.localAddress = "192.168.161.3/24";
+#  };
 
   containers.grafana = {
     extraVeths.grafaToProxy.hostBridge = "br-proxy-grafa";
     extraVeths.grafaToProxy.localAddress = "192.168.162.3/24";
   };
 
-  containers.seafile = {
-    extraVeths.seafiToProxy.hostBridge = "br-proxy-seafi";
-    extraVeths.seafiToProxy.localAddress = "192.168.163.3/24";
-  };
+#  containers.seafile = {
+#    extraVeths.seafiToProxy.hostBridge = "br-proxy-seafi";
+#    extraVeths.seafiToProxy.localAddress = "192.168.163.3/24";
+#  };
 }

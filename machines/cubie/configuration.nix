@@ -9,11 +9,12 @@
     ../../profiles/hardware.nix
 
     ./containers-archivekeep.nix
-    ./containers-gitea.nix
+    # ./containers-frigate.nix
+    # ./containers-gitea.nix
     ./containers-grafana.nix
     ./containers-prometheus.nix
     ./containers-proxy.nix
-    ./containers-seafile.nix
+    #./containers-seafile.nix
     ./containers-unbound.nix
 
     # unfinished
@@ -24,7 +25,6 @@
     ../../private/machines/cubie/containers.nix
     ../../private/machines/cubie/networking.nix
   ];
-
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -82,7 +82,7 @@
 
     # do not enable to not enable internet access
     # internalInterfaces = ["ve-+"];
-    internalInterfaces = [ "ve-proxy+" ];
+    internalInterfaces = [ "ve-proxy+" "ve-frigate+" ];
   };
 
   networking.dhcpcd = {
