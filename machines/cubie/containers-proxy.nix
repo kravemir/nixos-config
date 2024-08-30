@@ -154,6 +154,10 @@
         hostPath = "/storage/ssddata/proxy/acme";
         isReadOnly = false;
       };
+      "/etc/resolv.conf" = {
+        hostPath = "/etc/resolv.conf";
+        isReadOnly = true;
+      };
     };
 
     forwardPorts = [
