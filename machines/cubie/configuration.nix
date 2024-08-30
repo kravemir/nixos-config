@@ -9,7 +9,6 @@
     ../../profiles/hardware.nix
 
     ./containers-archivekeep.nix
-    # ./containers-frigate.nix
     # ./containers-gitea.nix
     ./containers-grafana.nix
     ./containers-prometheus.nix
@@ -32,6 +31,9 @@
 
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.swraid.enable = true;
+  boot.initrd.systemd.enable = true;
+
   # Unlock LUKS device at boot
   boot.initrd.luks.devices = {
     "enc-system".device = "/dev/disk/by-uuid/ac2e408f-432e-4623-a4ff-4bea469d0a87";
@@ -42,15 +44,18 @@
       allowDiscards = true;
       keyFileSize = 4096;
       keyFile = "/dev/disk/by-id/usb-Verbatim_STORE_N_GO_9000170E9068E729-0:0-part2";
+      keyFileTimeout = 6;
     };
     "enc-ssddata" = {
       allowDiscards = true;
       keyFileSize = 4096;
       keyFile = "/dev/disk/by-id/usb-Verbatim_STORE_N_GO_9000170E9068E729-0:0-part2";
+      keyFileTimeout = 5;
     };
     "enc-hdddata" = {
       keyFileSize = 4096;
       keyFile = "/dev/disk/by-id/usb-Verbatim_STORE_N_GO_9000170E9068E729-0:0-part2";
+      keyFileTimeout = 5;
     };
   };
 
@@ -73,12 +78,12 @@
 
 
   networking.networkmanager.enable = false;
-  networking.useDHCP = false;
-  networking.interfaces.enp1s0.useDHCP = true;
+  networking.useDHCP = true;
+  # networking.interfaces.enp1s0.useDHCP = true;
 
   networking.nat = {
     enable = true;
-    externalInterface = "enp1s0";
+    externalInterface = "enp2s0";
 
     # do not enable to not enable internet access
     # internalInterfaces = ["ve-+"];
@@ -108,6 +113,25 @@
   services.iperf3.enable = true;
 
 
+  virtualisation.containers.enable = true;
+  virtualisation = {
+    podman = {
+      enable = true;
+
+      dockerSocket.enable = true;
+      dockerCompat = true;
+
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
+
+  environment.systemPackages = with pkgs; [
+    dive
+    podman-tui
+    docker-compose
+  ];
+
   # prometheus system monitoring exporter
   services.prometheus.exporters.node = {
     enable = true;
@@ -118,6 +142,11 @@
     port = 9100;
   };
 
+
+  # install driver on host to have /dev/apex_0 available to passthrough
+  boot.extraModulePackages = [
+    config.boot.kernelPackages.gasket
+  ];
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -137,6 +166,6 @@
   };
 
 
-  system.stateVersion = "21.11";
+  system.stateVersion = "24.05";
 }
 

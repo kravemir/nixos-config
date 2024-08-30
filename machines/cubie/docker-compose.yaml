@@ -1,0 +1,23 @@
+
+services:
+  frigate:
+    image: ghcr.io/blakeblackshear/frigate:0.14.0
+    restart: unless-stopped
+    shm_size: "512mb"
+    devices:
+      - /dev/apex_0:/dev/apex_0 # Passes a PCIe Coral, follow driver instructions here https://coral.ai/docs/m2/get-started/#2a-on-linux
+      - /dev/dri/renderD128:/dev/dri/renderD128 # For intel hwaccel, needs to be updated for your hardware
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /storage/ssddata/frigate/config:/config
+      - /storage/hdddata/frigate/storage:/media/frigate
+      - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+      - "8971:8971"
+      # - "5000:5000" # Internal unauthenticated access. Expose carefully.
+      # - "8554:8554" # RTSP feeds (unauthenticated by default)
+      - "8555:8555/tcp" # WebRTC over tcp
+      - "8555:8555/udp" # WebRTC over udp
