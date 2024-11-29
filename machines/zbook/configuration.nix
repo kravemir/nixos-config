@@ -73,6 +73,8 @@
     "slack"
     "zoom"
 
+    "drawio"
+
     "android-studio-stable"
     "datagrip"
     "goland"

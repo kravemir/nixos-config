@@ -28,6 +28,9 @@
     pycharm-professional
     webstorm
 
+    # JetBrains utils
+    jcef
+
     gcc
     go
     jdk8

@@ -44,7 +44,8 @@ in
     # archives
     p7zip
 
-    clipgrab
+    ffmpeg
+    yt-dlp
 
     home-manager
 
@@ -52,8 +53,17 @@ in
     ddccontrol
     ddccontrol-db
     piper
+    wayland-utils
+    
+    htop
+    inxi
+    exiftool
+    bashmount
+    skanpage
+    simple-scan
 
     # VPN
+    networkmanager-l2tp
     wireguard-tools
 
     thunderbird
@@ -63,6 +73,7 @@ in
     virtiofsd
 
     # networking
+    iftop
     iperf
     wirelesstools
 

@@ -81,6 +81,7 @@ in
     lftp
     unzip
     freshfetch
+    exiftool
     (callPackage ../pkgs/cut_video.nix {})
   ];
 
